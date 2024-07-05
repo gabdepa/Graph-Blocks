@@ -1,7 +1,7 @@
 #ifndef RAINHAS_H
 #define RAINHAS_H
 
-// Representa uma casa do tabuleiro
+// Estrutura para uma casa do tabuleiro
 typedef struct casa
 {
   unsigned int linha, coluna;
@@ -14,23 +14,26 @@ struct Node {
 };
 typedef struct Node Node;
 
+// Estrutura para lista
 struct t_lista {
     Node *ini;
     int tamanho;
 };
 typedef struct t_lista t_lista;
 
-// Protótipos
-int is_safe(unsigned int* board, unsigned int row, unsigned int col, casa* c, unsigned int k);
-int solve_n_queens_bt(unsigned int *board, unsigned int row, unsigned int n, casa *c, unsigned int k);
-int solve_n_queens_ci(unsigned int* board, unsigned int row, unsigned int n, casa* c, unsigned int k);
-void create_graph(unsigned int *board, t_lista* graph, unsigned int graph_size, unsigned int n);
-// IMPLEMENTACOES DA LISTA
+
+// Implementações Lista
 void imprime_lista (t_lista *l);
 int cria_lista(t_lista *l);
 int insere_fim_lista(unsigned int x, t_lista *l);
 int lista_vazia(t_lista *l);
 int insere_inicio_lista(unsigned int x, t_lista *l);
+
+// Protótipos
+int is_safe(unsigned int* board, unsigned int row, unsigned int col, casa* c, unsigned int k);
+int solve_n_queens_bt(unsigned int *board, unsigned int row, unsigned int n, casa *c, unsigned int k);
+int solve_n_queens_ci(unsigned int* board, unsigned int row, unsigned int n, casa* c, unsigned int k);
+void create_graph(unsigned int *board, t_lista* graph, unsigned int graph_size, unsigned int n);
 
 //------------------------------------------------------------------------------
 // computa uma resposta para a instância (n,c) do problema das n rainhas
