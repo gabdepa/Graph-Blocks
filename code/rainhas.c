@@ -7,18 +7,20 @@ int is_safe(unsigned int *board, unsigned int row, unsigned int col, casa *c, un
 {
     for(unsigned int p = 0; p < k; ++p)
     {
-        if(c[p].linha - 1 == (unsigned int)row && c[p].coluna - 1 == (unsigned int)col)
+        if(c[p].linha - 1 == row && c[p].coluna - 1 == col)
         {
             return 0;
         }
     }
     for(unsigned int i = 0; i < row; i++)
     {
-        if(board[i] == col || board[i] == (col -(row - i)) || board[i] == (col +(row - i)))
+        // como armazenamos o col+1 no tabuleiro, somamos 1 para comparar
+        if(board[i] == col+1 || board[i] == (col+1 -(row - i)) || board[i] == (col+1 +(row - i)))
         {
             return 0;
         }
     }
+
     return 1;
 }
 
@@ -33,7 +35,8 @@ int solve_n_queens_bt(unsigned int *board, unsigned int row, unsigned int n, cas
     {
         if(is_safe(board, row, i, c, k))
         {
-            board[row] = i;
+            // 0 apenas se nao tiver rainha
+            board[row] = i+1;
             if(solve_n_queens_bt(board, row + 1, n, c, k))
             {
                 return 1;
@@ -67,7 +70,7 @@ unsigned int *rainhas_bt(unsigned int n, unsigned int k, casa *c, unsigned int *
     {
         for(unsigned int i = 0; i < n; i++)
         {
-            r[i] = board[i] + 1; // Adiciona 1 ao índice da coluna
+            r[i] = board[i]; // Adiciona 1 ao índice da coluna
         }
     }
 
@@ -99,7 +102,7 @@ unsigned int *rainhas_ci(unsigned int n, unsigned int k, casa *c, unsigned int *
     t_lista *graph = (t_lista *)malloc(graph_size * sizeof(t_lista));
     create_graph(board, graph, graph_size, n);
 
-    // criar conjunto independente
+    // cria conjunto independente - conjunto solucao do problema
     t_lista independet_set, available_vertices;
     cria_lista(&independet_set);
 
@@ -112,8 +115,10 @@ unsigned int *rainhas_ci(unsigned int n, unsigned int k, casa *c, unsigned int *
         Node *aux = result->ini;
         unsigned int i = 0;
         while(aux != NULL) {
-            unsigned int coluna = aux->v % n;
-            printf("%d\n", coluna);
+            // retorna a coluna em que esta de acordo com o valor do vertice
+            // -1 pois armazenamos a col+1 no tabuleiro e se for colocado na ultima coluna
+            // o valor do vértice % n seria 0, e em seguida adicionamos 1 novamente ao valor da coluna
+            unsigned int coluna = (aux->v-1) % n;
             r[i] = coluna+1;
             aux = aux->next;
             i++;
@@ -147,6 +152,7 @@ void create_graph(unsigned int *board, t_lista *graph, unsigned int graph_size, 
                     if(i == row && j == col)
                         continue;
 
+                    // se a posicao do tabuleiro pode ser atacada, entao ela e um vertice adjacente
                     if((row == i || j == col || abs((int)(row - i)) == abs((int)(j - col))))
                     {
                         insere_fim_lista(i * n + j, &graph[row * n + col]);
@@ -159,6 +165,8 @@ void create_graph(unsigned int *board, t_lista *graph, unsigned int graph_size, 
     }
 }
 
+// identifica quais vertices do grafo nao estao bloqueados para montar
+// o conjunto de vertices que podemos inserir rainhas
 void create_available_vertices(unsigned int graph_size, casa *c, unsigned int k, t_lista *available_vertices, unsigned int n)
 {
     cria_lista(available_vertices);
@@ -197,22 +205,6 @@ void libera_listas(t_lista *graph, unsigned int graph_size, t_lista available_ve
 }
 
 // IMPLEMENTACOES DA LISTA
-void imprime_lista(t_lista *l)
-{
-    Node *aux;
-
-    if(lista_vazia(l))
-        return;
-
-    aux = l->ini;
-    while(aux != NULL)
-    {
-        printf("%d ", aux->v);
-        aux = aux->next;
-    }
-    printf("\n");
-}
-
 int cria_lista(t_lista *l)
 {
     l->ini = NULL;
@@ -227,7 +219,7 @@ int insere_fim_lista(unsigned int x, t_lista *l)
     if(lista_vazia(l))
         return insere_inicio_lista(x, l);
 
-    /* Caso a lista não esteja vazia, ela acha o fim dela */
+    // Caso a lista não esteja vazia, ela acha o fim dela
     new = (Node *)malloc(sizeof(Node));
     if(new == NULL)
     {
@@ -268,7 +260,7 @@ int insere_inicio_lista(unsigned int x, t_lista *l)
     new->next = NULL;
     l->tamanho++;
 
-    /* Caso a lista esteja vazia */
+    // Caso a lista esteja vazia
     if(lista_vazia(l))
     {
         l->ini = new;
@@ -285,7 +277,7 @@ unsigned int remove_primeiro_lista(unsigned int *item, t_lista *l) {
 	if(lista_vazia(l))
 		return 0;
 
-	/* Caso a lista não esteja vazia */
+	// Caso a lista não esteja vazia
 	l->tamanho--;
 	*item = l->ini->v;
 	aux = l->ini;
@@ -294,30 +286,30 @@ unsigned int remove_primeiro_lista(unsigned int *item, t_lista *l) {
 	return 1;
 }
 
-unsigned int remove_item_lista(unsigned int chave, unsigned int *item, t_lista *l) {
+unsigned int remove_item_lista(unsigned int v, unsigned int *item, t_lista *l) {
 	Node *aux, *anterior;
 
 	if(lista_vazia(l))
 		return 0;
 
-	/* Caso o elemento esteja na primeira posição */
-	if(l->ini->v == chave) {
+	// Caso o elemento esteja na primeira posição
+	if(l->ini->v == v) {
 		return remove_primeiro_lista(item, l);
 	}
 
 	aux = l->ini->next;
 	anterior = l->ini;
-	while((aux->next != NULL) && (aux->v != chave)) {
+	while((aux->next != NULL) && (aux->v != v)) {
 		anterior = aux;
 		aux = aux->next;
 	}
-	/* Caso tenha chegado ao fim da lista e o elemento não foi achado */
-	if((aux->next == NULL) && (aux->v != chave)) {
+	// Caso tenha chegado ao fim da lista e o elemento não foi achado
+	if((aux->next == NULL) && (aux->v != v)) {
 		printf("Nao removido: elemento nao encontrado.\n");
 		return 0;
 	}
-	/* Caso o elemento esteja na ultima posição */
-	else if((aux->next == NULL) && (aux->v == chave)) {
+	// Caso o elemento esteja na ultima posição
+	else if((aux->next == NULL) && (aux->v == v)) {
 		*item = aux->v;
 		anterior->next = NULL;
 	}
@@ -330,16 +322,16 @@ unsigned int remove_item_lista(unsigned int chave, unsigned int *item, t_lista *
 	return 1;
 }
 
-int pertence_lista (unsigned int chave, t_lista *l) {
+int pertence_lista (unsigned int v, t_lista *l) {
 	Node *aux;
 
 	if (lista_vazia (l))
 		return 0;
 
 	aux = l->ini;
-	while ((aux->next != NULL) && (aux->v != chave))
+	while ((aux->next != NULL) && (aux->v != v))
 		aux = aux->next;
-	if (aux->v == chave)
+	if (aux->v == v)
 		return 1;
 	return 0;
 }
@@ -347,7 +339,6 @@ int pertence_lista (unsigned int chave, t_lista *l) {
 void destroi_lista(t_lista *l) {
 
 	if(lista_vazia(l)) {
-		printf("Nao destruida, lista vazia\n");
 		return;
 	}
 
@@ -364,6 +355,22 @@ void destroi_lista(t_lista *l) {
 	l->ini = NULL;
 }
 
+int copia_lista (t_lista *lista1, t_lista *lista2) {
+	Node *aux_l;
+
+	if (lista_vazia (lista1))
+		return 0;
+
+	aux_l = lista1->ini;
+	insere_inicio_lista (aux_l->v, lista2);
+	while (aux_l->next != NULL) {
+		aux_l = aux_l->next;
+		insere_fim_lista (aux_l->v, lista2);
+	}
+	lista2->tamanho = lista1->tamanho;
+	return 1;
+}
+
 t_lista* ConjIndep(t_lista *graph, unsigned int n, t_lista *independent_set, t_lista *available_vertices) {
     if(independent_set->tamanho == n) {
         return independent_set;
@@ -378,7 +385,12 @@ t_lista* ConjIndep(t_lista *graph, unsigned int n, t_lista *independent_set, t_l
         return NULL;
     }
 
-    insere_fim_lista(v, independent_set);
+    // copia os vertices disponiveis caso precise voltar o estado
+    t_lista *available_vertices_copy = (t_lista *)malloc(sizeof(t_lista));
+    cria_lista(available_vertices_copy);
+    copia_lista(available_vertices, available_vertices_copy);
+
+    insere_fim_lista(v+1, independent_set);
 
     // remove os vizinhos de v de available_vertices
     Node *aux = graph[v].ini;
@@ -399,18 +411,8 @@ t_lista* ConjIndep(t_lista *graph, unsigned int n, t_lista *independent_set, t_l
         return result;
     }
 
-    // retornar o estado anterior
-    // remove_item_lista(v, &v, independent_set);
-    // aux = graph[v].ini;
-    // while(aux != NULL) {
-    //     unsigned int node_to_add = aux->v;
+    // retornar o estado anterior e chama a recursão sem o vértice v
+    remove_item_lista(v+1, &v, independent_set);
 
-    //     if(!pertence_lista(node_to_add, available_vertices)) {
-    //         insere_inicio_lista(node_to_add, available_vertices);
-    //     }
-
-    //     aux = aux->next;
-    // }
-
-    return ConjIndep(graph, n, independent_set, available_vertices);
+    return ConjIndep(graph, n, independent_set, available_vertices_copy);
 }

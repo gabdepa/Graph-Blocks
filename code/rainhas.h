@@ -33,6 +33,8 @@ unsigned int remove_item_lista (unsigned int chave, unsigned int *item, t_lista 
 void destroi_lista (t_lista *l);
 void libera_listas(t_lista *graph, unsigned int graph_size, t_lista available_vertices, t_lista independet_set);
 int pertence_lista (unsigned int chave, t_lista *l);
+int insere_ordenado_lista (unsigned int x, t_lista *l);
+int copia_lista (t_lista *lista1, t_lista *lista2);
 
 // Protótipos
 int is_safe(unsigned int* board, unsigned int row, unsigned int col, casa* c, unsigned int k);
