@@ -76,48 +76,6 @@ unsigned int *rainhas_bt(unsigned int n, unsigned int k, casa *c, unsigned int *
 }
 
 // Função para resolver o problema das N-rainhas com conjuntos independentes
-int solve_n_queens_ci(unsigned int *board, unsigned int row, unsigned int n, casa *c, unsigned int k)
-{
-    if(row >= n)
-    {
-        return 1;
-    }
-    for(unsigned int i = 0; i < n; i++)
-    {
-        int forbidden = 0;
-        for(unsigned int p = 0; p < k; ++p)
-        {
-            if(c[p].linha - 1 == row && c[p].coluna - 1 == i)
-            {
-                forbidden = 1;
-                break;
-            }
-        }
-        if(forbidden)
-            continue;
-
-        int conflict = 0;
-        for(unsigned int j = 0; j < row; j++)
-        {
-            if(board[j] == i || abs((int)board[j] -(int)i) == (row - j))
-            {
-                conflict = 1;
-                break;
-            }
-        }
-        if(!conflict)
-        {
-            board[row] = i;
-            if(solve_n_queens_ci(board, row + 1, n, c, k))
-            {
-                return 1;
-            }
-            board[row] = 0; // Backtrack
-        }
-    }
-    return 0;
-}
-
 unsigned int *rainhas_ci(unsigned int n, unsigned int k, casa *c, unsigned int *r)
 {
     // Verificar se todas as casas estão proibidas
@@ -146,15 +104,7 @@ unsigned int *rainhas_ci(unsigned int n, unsigned int k, casa *c, unsigned int *
     cria_lista(&independet_set);
 
     // criar conjunto available_vertices - conjunto que contém vértices não proibidos do grafo
-    create_available_vertices(graph, graph_size, c, k, &available_vertices, n);
-    // imprime_lista(&available_vertices);
-
-    // for(unsigned int i = 0; i < graph_size; i++)
-    // {
-    //     printf("Lista %d: ", i);
-    //     imprime_lista(&graph[i]);
-    // }
-    // if(solve_n_queens_ci(board,(unsigned int)0, n, c, k))
+    create_available_vertices(graph_size, c, k, &available_vertices, n);
 
     t_lista *result = ConjIndep(graph, n, &independet_set, &available_vertices);
     if(result)
@@ -162,8 +112,11 @@ unsigned int *rainhas_ci(unsigned int n, unsigned int k, casa *c, unsigned int *
         Node *aux = result->ini;
         unsigned int i = 0;
         while(aux != NULL) {
-            r[i] = aux->v;
+            unsigned int coluna = aux->v % n;
+            printf("%d\n", coluna);
+            r[i] = coluna+1;
             aux = aux->next;
+            i++;
         }
     }
 
@@ -213,15 +166,15 @@ void create_available_vertices(unsigned int graph_size, casa *c, unsigned int k,
     for(unsigned int graph_vertice = 0; graph_vertice < graph_size; graph_vertice++)
     {
         int node_blocked = 0;
-        unsigned int block_cell = 0;
-        while(block_cell < k && !node_blocked)
+        unsigned int cell_blocked = 0;
+        while(cell_blocked < k && !node_blocked)
         {
-            unsigned int line = c[block_cell].linha;
-            unsigned int column = c[block_cell].coluna;
+            unsigned int line = c[cell_blocked].linha-1;
+            unsigned int column = c[cell_blocked].coluna-1;
 
             if(line * n + column == graph_vertice) node_blocked = 1;
 
-            block_cell++;
+            cell_blocked++;
         }
 
         if(!node_blocked)
@@ -441,11 +394,23 @@ t_lista* ConjIndep(t_lista *graph, unsigned int n, t_lista *independent_set, t_l
     }
 
     t_lista *result = ConjIndep(graph, n, independent_set, available_vertices);
-    // imprime_lista(result);
 
     if(result) {
         return result;
     }
+
+    // retornar o estado anterior
+    // remove_item_lista(v, &v, independent_set);
+    // aux = graph[v].ini;
+    // while(aux != NULL) {
+    //     unsigned int node_to_add = aux->v;
+
+    //     if(!pertence_lista(node_to_add, available_vertices)) {
+    //         insere_inicio_lista(node_to_add, available_vertices);
+    //     }
+
+    //     aux = aux->next;
+    // }
 
     return ConjIndep(graph, n, independent_set, available_vertices);
 }
