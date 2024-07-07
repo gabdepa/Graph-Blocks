@@ -12,7 +12,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
     - **tamanho**: Representa o tamanho da lista.
 
 ## Funções BackTracking
-**`is_safe()`**
+### `is_safe()`
 - **Descrição**: A função verifica se é seguro colocar uma rainha em uma posição específica em um tabuleiro de xadrez, levando em conta tanto as posições proibidas quanto as posições das rainhas já colocadas.
 - **Lógica**: A função realiza 2 verificações principais:
     1. **Casas Proibidas**: Percorre uma lista de posições proibidas (`c`), representada por um array de estruturas `casa`, e verifica se a posição desejada (`row`, `col`) coincide com alguma dessas posições proibidas.
@@ -27,7 +27,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
 - **Retorno**: Retorna 1 se for seguro, 0 caso contrário.
 
 
-**`solve_n_queens_bt()`**
+### `solve_n_queens_bt()`
 - **Descrição**: A função é uma função auxiliar que utiliza a técnica de backtracking para resolver o problema das N-rainhas. O objetivo do problema é colocar N rainhas em um tabuleiro de N x N de forma que nenhuma rainha possa atacar outra.
 - **Lógica**: A função segue uma abordagem recursiva e de backtracking:
     1. **Condição de parada**: Se todas as rainhas foram colocadas (`row >= n`), a função retorna 1, indicando que uma solução foi encontrada.
@@ -47,7 +47,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
 
 
 ## Funções Conjuntos Independentes
-**`ConjIndep()`**
+### `ConjIndep()`
 - **Descrição**: A função busca encontrar um conjunto independente de tamanho `n` em um grafo representado por uma lista de adjacência. Um conjunto independente é um conjunto de vértices em que nenhum vértice está diretamente conectado a outro vértice do conjunto.
 - **Lógica**: 
     1. **Verificação de Tamanho do Conjunto Independente**: Se o tamanho do conjunto independente (`independent_set->tamanho`) é igual a `n`, a função retorna `independent_set`, indicando que encontrou um conjunto independente de tamanho `n`.
@@ -70,7 +70,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
 - **Retorno**: Retorna um ponteiro para `t_lista` que contém o conjunto independente de tamanho `n` se for encontrado. Caso contrário, retorna`NULL` se não for possível formar um conjunto independente de tamanho `n` com os vértices disponíveis.
 
 
-**`create_graph()`**
+###`create_graph()`###
 - **Descrição**: A função cria um grafo representando o problema das N-rainhas. Cada posição no tabuleiro é um nó no grafo, e arestas são criadas entre nós que representam posições do tabuleiro onde uma rainha pode atacar outra.
 - **Lógica**:
     1. **Inicialização das Listas**: Para cada entrada no array `graph`, inicializa uma lista vazia.
@@ -85,7 +85,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
 - **Retorno**: A função não retorna um valor. Em vez disso, ela modifica diretamente o grafo passado por referência.
 
 
-**`create_available_vertices()`**
+### `create_available_vertices()`
 - **Descrição**: A função identifica quais vértices em um grafo não estão bloqueados, criando uma lista dos vértices onde é possível inserir rainhas. A função leva em consideração um conjunto de posições proibidas.
     - **Lógica**: 
     1. **Inicialização da Lista**: Inicializa a lista `available_vertices` que vai armazenar os vértices disponíveis.
@@ -103,7 +103,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
 - **Retorno**: A função não retorna um valor. Em vez disso, ela modifica diretamente a lista `available_vertices` passada por referência, inserindo os vértices que não estão bloqueados.
 
 
-**`libera_listas()`**
+### `libera_listas()`
 - **Descrição**: A função é responsável por liberar a memória alocada para as listas de adjacência de um grafo, além de liberar as listas de vértices disponíveis e o conjunto independente.
 - **Lógica**: 
     1. **Liberação das Listas de Adjacência do Grafo**:
@@ -122,7 +122,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
 
 
 ## Funções auxiliares de Listas
-**`cria_lista()`**
+### `cria_lista()`
 - **Descrição**: A função inicializa uma lista ligada vazia. A lista é representada pela estrutura `t_lista`, que contém um ponteiro para o início da lista e um campo para armazenar seu tamanho.
 - **Lógica**: 
     1. **Inicialização dos Campos da Estrutura**:
@@ -134,7 +134,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
 - **Retorno**: Retorna `1` para indicar que a lista foi criada com sucesso.
 
 
-**`insere_fim_lista()`**
+### `insere_fim_lista()`
 - **Descrição**: A função  insere um novo nó com o valor `x` no final de uma lista ligada representada pela estrutura `t_lista`. Se a lista estiver vazia, a função chama outra função para inserir o nó no início.
 - **Lógica**: 
     1. **Verificação se a Lista está Vazia**: Se a lista estiver vazia, a função chama insere_inicio_lista para inserir o nó no início da lista.
@@ -154,7 +154,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
 - **Retorno**: Retorna `1` para indicar que o nó foi inserido com sucess, `0` caso contrário.
 
 
-**`lista_vazia()`**
+### `lista_vazia()`
 - **Descrição**: A função verifica se uma lista ligada está vazia.
 - **Lógica**:
     1. **Verificação do Ponteiro Inicial**: Se o ponteiro `ini` da estrutura `t_lista` for `NULL`, a lista está vazia, caso contrário, a lista contém elementos.
@@ -163,7 +163,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
 - **Retorno**: Retorna `1` se a lista estiver vazia, `0` caso contrário (a lista contém elementos)
 
 
-**`insere_inicio_lista()`**
+### `insere_inicio_lista()`
 - **Descrição**: A função insere um novo nó com o valor `x` no início de uma lista ligada representada pela estrutura `t_lista`.
 - **Lógica**: 
     1. **Alocação de Memória para um Novo Nó**:
@@ -183,7 +183,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
 - **Retorno**: Retorna `1` para indicar que o nó foi inserido com sucesso, `0` em caso de falha na alocação da memória.
 
 
-**`remove_primeiro_lista()`**
+### `remove_primeiro_lista()`
 - **Descrição**: A função remove o primeiro nó de uma lista ligada, representada pela estrutura `t_lista`, e armazena o valor do nó removido em uma variável fornecida pelo usuário.
 - **Lógica**:
     1. **Verificação se a Lista está Vazia**:
@@ -201,7 +201,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
 - **Retorno**: Retorna `1` se o nó for removido com sucesso, `0` se a lista estiver vazia e não houver elementos para remover.
 
 
-**`remove_item_lista()`**
+### `remove_item_lista()`
 - **Descrição**: A função busca e remove um nó específico com valor `v` de uma lista ligada representada pela estrutura `t_lista`. Se o nó for encontrado e removido, o valor é armazenado na variável fornecida.
 - **Lógica**:
     1. **Verificação se a Lista está Vazia**:
@@ -225,7 +225,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
 - **Retorno**: Retorna `1` se o nó for removido com sucesso. `0` se a lista estiver vazia ou se o nó não for encontrado.
 
 
-**`pertence_lista()`**
+### `pertence_lista()`
 - **Descrição**: A função verifica se um valor `v` está presente em uma lista ligada representada pela estrutura `t_lista`.
 - **Lógica**: 
     1. **Verificação se a Lista está Vazia**:
@@ -243,7 +243,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
 - **Retorno**: Retorna `1` se o valor `v` estiver presente na lista. `0` se o valor `v` não estiver presente na lista ou se a lista estiver vazia.
 
 
-**`destroi_lista()`**
+### `destroi_lista()`
 - **Descrição**: A função libera toda a memória alocada para uma lista ligada, representada pela estrutura `t_lista`, e redefine os parâmetros da lista para indicar que ela está vazia.
 - **Lógica**: 
     1. **Verificação se a Lista está Vazia**:
@@ -263,7 +263,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
 - **Retorno**: A função não retorna um valor. Ela modifica diretamente a estrutura da lista para liberar a memória e redefinir seus parâmetros.
 
 
-**`copia_lista()`**
+### `copia_lista()`
 - **Descrição**: A função copia todos os elementos de uma lista ligada `lista1` para outra lista ligada `lista2`. Se `lista1` estiver vazia, a função retorna imediatamente sem fazer alterações.
 - **Lógica**: 
     1. **Verificação se a Lista está Vazia**:
