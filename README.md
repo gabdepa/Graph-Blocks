@@ -26,6 +26,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
     - `unsigned int k`: O número de posições proibidas no array c.
 - **Retorno**: Retorna 1 se for seguro, 0 caso contrário.
 
+
 **`solve_n_queens_bt()`**
 - **Descrição**: A função é uma função auxiliar que utiliza a técnica de backtracking para resolver o problema das N-rainhas. O objetivo do problema é colocar N rainhas em um tabuleiro de N x N de forma que nenhuma rainha possa atacar outra.
 - **Lógica**: A função segue uma abordagem recursiva e de backtracking:
@@ -43,6 +44,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
     - `casa *c`: Um ponteiro para uma estrutura que contém posições proibidas onde uma rainha não pode ser colocada.
     - `unsigned int k`: O número de posições proibidas contidas na estrutura c.
 - **Retorno**: Retorna 1 se uma solução for encontrada, 0 caso contrário.
+
 
 ## Funções Conjuntos Independentes
 **`ConjIndep()`**
@@ -67,6 +69,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
     - `t_lista *available_vertices`: Uma lista de vértices que ainda estão disponíveis para inclusão no conjunto independente.
 - **Retorno**: Retorna um ponteiro para `t_lista` que contém o conjunto independente de tamanho `n` se for encontrado. Caso contrário, retorna`NULL` se não for possível formar um conjunto independente de tamanho `n` com os vértices disponíveis.
 
+
 **`create_graph()`**
 - **Descrição**: A função cria um grafo representando o problema das N-rainhas. Cada posição no tabuleiro é um nó no grafo, e arestas são criadas entre nós que representam posições do tabuleiro onde uma rainha pode atacar outra.
 - **Lógica**:
@@ -80,6 +83,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
     - `unsigned int graph_size`: O tamanho do grafo, que é igual ao número de posições no tabuleiro (N x N).
     - `unsigned int n`: O tamanho do tabuleiro (e o número de rainhas a serem colocadas).
 - **Retorno**: A função não retorna um valor. Em vez disso, ela modifica diretamente o grafo passado por referência.
+
 
 **`create_available_vertices()`**
 - **Descrição**: A função identifica quais vértices em um grafo não estão bloqueados, criando uma lista dos vértices onde é possível inserir rainhas. A função leva em consideração um conjunto de posições proibidas.
@@ -97,6 +101,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
     - `t_lista *available_vertices`: Uma lista onde serão armazenados os vértices disponíveis.
     - `unsigned int n`: O tamanho do tabuleiro (nxn).
 - **Retorno**: A função não retorna um valor. Em vez disso, ela modifica diretamente a lista `available_vertices` passada por referência, inserindo os vértices que não estão bloqueados.
+
 
 **`libera_listas()`**
 - **Descrição**: A função é responsável por liberar a memória alocada para as listas de adjacência de um grafo, além de liberar as listas de vértices disponíveis e o conjunto independente.
@@ -128,6 +133,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
     - `t_lista *l`: Um ponteiro para a estrutura `t_lista` que será inicializada como uma lista vazia.
 - **Retorno**: Retorna `1` para indicar que a lista foi criada com sucesso.
 
+
 **`insere_fim_lista()`**
 - **Descrição**: A função  insere um novo nó com o valor `x` no final de uma lista ligada representada pela estrutura `t_lista`. Se a lista estiver vazia, a função chama outra função para inserir o nó no início.
 - **Lógica**: 
@@ -147,6 +153,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
     - `t_lista *l`: Um ponteiro para a estrutura `t_lista` onde o novo nó será inserido.
 - **Retorno**: Retorna `1` para indicar que o nó foi inserido com sucess, `0` caso contrário.
 
+
 **`lista_vazia()`**
 - **Descrição**: A função verifica se uma lista ligada está vazia.
 - **Lógica**:
@@ -154,6 +161,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
 - **Parâmetros**:
     - `t_lista *l`: Um ponteiro para a estrutura `t_lista` que representa a lista a ser verificada.
 - **Retorno**: Retorna `1` se a lista estiver vazia, `0` caso contrário (a lista contém elementos)
+
 
 **`insere_inicio_lista()`**
 - **Descrição**: A função insere um novo nó com o valor `x` no início de uma lista ligada representada pela estrutura `t_lista`.
@@ -173,6 +181,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
     - `unsigned int x`: O valor a ser inserido no novo nó.
     - `t_lista *l`: Um ponteiro para a estrutura `t_lista` onde o novo nó será inserido.
 - **Retorno**: Retorna `1` para indicar que o nó foi inserido com sucesso, `0` em caso de falha na alocação da memória.
+
 
 **`remove_primeiro_lista()`**
 - **Descrição**: A função remove o primeiro nó de uma lista ligada, representada pela estrutura `t_lista`, e armazena o valor do nó removido em uma variável fornecida pelo usuário.
@@ -215,6 +224,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
     - `t_lista *l`: Um ponteiro para a estrutura `t_lista` de onde o nó será removido.
 - **Retorno**: Retorna `1` se o nó for removido com sucesso. `0` se a lista estiver vazia ou se o nó não for encontrado.
 
+
 **`pertence_lista()`**
 - **Descrição**: A função verifica se um valor `v` está presente em uma lista ligada representada pela estrutura `t_lista`.
 - **Lógica**: 
@@ -231,6 +241,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
     - `unsigned int v`: O valor a ser verificado na lista.
     - `t_lista *l`: Um ponteiro para a estrutura `t_lista` onde será feita a verificação.
 - **Retorno**: Retorna `1` se o valor `v` estiver presente na lista. `0` se o valor `v` não estiver presente na lista ou se a lista estiver vazia.
+
 
 **`destroi_lista()`**
 - **Descrição**: A função libera toda a memória alocada para uma lista ligada, representada pela estrutura `t_lista`, e redefine os parâmetros da lista para indicar que ela está vazia.
@@ -250,6 +261,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
 - **Parâmetros**: 
     - `t_lista *l`: Um ponteiro para a estrutura t_lista que representa a lista a ser destruída.
 - **Retorno**: A função não retorna um valor. Ela modifica diretamente a estrutura da lista para liberar a memória e redefinir seus parâmetros.
+
 
 **`copia_lista()`**
 - **Descrição**: A função copia todos os elementos de uma lista ligada `lista1` para outra lista ligada `lista2`. Se `lista1` estiver vazia, a função retorna imediatamente sem fazer alterações.
