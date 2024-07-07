@@ -23,18 +23,6 @@ struct t_lista
 };
 typedef struct t_lista t_lista;
 
-/**************************************************LISTAS***************************************************/
-int cria_lista(t_lista *l);
-int insere_fim_lista(unsigned int x, t_lista *l);
-int lista_vazia(t_lista *l);
-int insere_inicio_lista(unsigned int x, t_lista *l);
-unsigned int remove_primeiro_lista(unsigned int *item, t_lista *l);
-unsigned int remove_item_lista(unsigned int chave, unsigned int *item, t_lista *l);
-int pertence_lista(unsigned int chave, t_lista *l);
-void destroi_lista(t_lista *l);
-int copia_lista(t_lista *lista1, t_lista *lista2);
-/**************************************************LISTAS***************************************************/
-
 /**************************************************BACKTRACKING***************************************************/
 int is_safe(unsigned int *board, unsigned int row, unsigned int col, casa *c, unsigned int k);
 int solve_n_queens_bt(unsigned int *board, unsigned int row, unsigned int n, casa *c, unsigned int k);
@@ -61,4 +49,16 @@ t_lista *ConjIndep(t_lista *graph, unsigned int n, t_lista *independent_set, t_l
 // n, c, r e o valor de retorno são como em rainhas_bt
 unsigned int *rainhas_ci(unsigned int n, unsigned int k, casa *c, unsigned int *r);
 /**************************************************CONJUNTOS INDEPENDENTES***************************************************/
+
+/**************************************************LISTAS***************************************************/
+int cria_lista(t_lista *l);
+int insere_fim_lista(unsigned int x, t_lista *l);
+int lista_vazia(t_lista *l);
+int insere_inicio_lista(unsigned int x, t_lista *l);
+unsigned int remove_primeiro_lista(unsigned int *item, t_lista *l);
+unsigned int remove_item_lista(unsigned int chave, unsigned int *item, t_lista *l);
+int pertence_lista(unsigned int chave, t_lista *l);
+void destroi_lista(t_lista *l);
+int copia_lista(t_lista *lista1, t_lista *lista2);
+/**************************************************LISTAS***************************************************/
 #endif
