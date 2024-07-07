@@ -1,8 +1,7 @@
 # Projeto: Solução do Problema das N Rainhas
+Este trabalho contém a implementação em C para resolver o problema das **N rainhas**, onde o objetivo é posicionar N rainhas em um tabuleiro de xadrez de tamanho N x N de forma que nenhuma rainha esteja atacando outra.
 
-Este código contém a implementação em C para resolver o problema das N rainhas, onde o objetivo é posicionar N rainhas em um tabuleiro de xadrez de tamanho N x N de forma que nenhuma rainha esteja atacando outra.
-
-### Estruturas de Dados
+## Estruturas de Dados
 - **`Node`**: Estrutura para os nós utilizados na lista de adjacências do grafo.
     - **v**: Valor do vértice no nó.
     - **next**: Ponteiro para o próximo nó na lista.
@@ -70,7 +69,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
 - **Retorno**: Retorna um ponteiro para `t_lista` que contém o conjunto independente de tamanho `n` se for encontrado. Caso contrário, retorna`NULL` se não for possível formar um conjunto independente de tamanho `n` com os vértices disponíveis.
 
 
-###`create_graph()`###
+### `create_graph()`
 - **Descrição**: A função cria um grafo representando o problema das N-rainhas. Cada posição no tabuleiro é um nó no grafo, e arestas são criadas entre nós que representam posições do tabuleiro onde uma rainha pode atacar outra.
 - **Lógica**:
     1. **Inicialização das Listas**: Para cada entrada no array `graph`, inicializa uma lista vazia.
