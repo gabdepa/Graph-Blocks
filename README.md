@@ -4,16 +4,14 @@ Este código contém a implementação em C para resolver o problema das N rainh
 
 ### Estruturas de Dados
 - **`Node`**: Estrutura para os nós utilizados na lista de adjacências do grafo.
-        **v**: Valor do vértice no nó.
-        **next**: Ponteiro para o próximo nó na lista.
+    - **v**: Valor do vértice no nó.
+    - **next**: Ponteiro para o próximo nó na lista.
 
 - **`t_lista`**: Estrutura para representar uma lista.
-        **ini**: Ponteiro para o primeiro nó da lista.
-        **tamanho**: Representa o tamanho da lista.
+    - **ini**: Ponteiro para o primeiro nó da lista.
+    - **tamanho**: Representa o tamanho da lista.
 
-## Funções   
-
-### BackTracking
+## Funções BackTracking
 **`is_safe()`**
 - **Descrição**: A função verifica se é seguro colocar uma rainha em uma posição específica em um tabuleiro de xadrez, levando em conta tanto as posições proibidas quanto as posições das rainhas já colocadas.
 - **Lógica**: A função realiza 2 verificações principais:
@@ -46,7 +44,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
     - `unsigned int k`: O número de posições proibidas contidas na estrutura c.
 - **Retorno**: Retorna 1 se uma solução for encontrada, 0 caso contrário.
 
-### Conjuntos Independentes
+## Funções Conjuntos Independentes
 **`ConjIndep()`**
 - **Descrição**: A função busca encontrar um conjunto independente de tamanho `n` em um grafo representado por uma lista de adjacência. Um conjunto independente é um conjunto de vértices em que nenhum vértice está diretamente conectado a outro vértice do conjunto.
 - **Lógica**: 
@@ -68,7 +66,6 @@ Este código contém a implementação em C para resolver o problema das N rainh
     - `t_lista *independent_set`: Uma lista que armazena os vértices do conjunto independente atual.
     - `t_lista *available_vertices`: Uma lista de vértices que ainda estão disponíveis para inclusão no conjunto independente.
 - **Retorno**: Retorna um ponteiro para `t_lista` que contém o conjunto independente de tamanho `n` se for encontrado. Caso contrário, retorna`NULL` se não for possível formar um conjunto independente de tamanho `n` com os vértices disponíveis.
-
 
 **`create_graph()`**
 - **Descrição**: A função cria um grafo representando o problema das N-rainhas. Cada posição no tabuleiro é um nó no grafo, e arestas são criadas entre nós que representam posições do tabuleiro onde uma rainha pode atacar outra.
@@ -119,7 +116,7 @@ Este código contém a implementação em C para resolver o problema das N rainh
 - **Retorno**: A função não retorna um valor. Ela libera a memória alocada para as estruturas de dados passadas como parâmetro.
 
 
-### Funções auxiliares de Listas
+## Funções auxiliares de Listas
 **`cria_lista()`**
 - **Descrição**: A função inicializa uma lista ligada vazia. A lista é representada pela estrutura `t_lista`, que contém um ponteiro para o início da lista e um campo para armazenar seu tamanho.
 - **Lógica**: 
