@@ -220,9 +220,10 @@ t_lista *ConjIndep(t_lista *graph, unsigned int n, t_lista *independent_set, t_l
 
     // Chamada recursiva para continuar construindo o conjunto independente
     t_lista *result = ConjIndep(graph, n, independent_set, available_vertices);
-
     if (result)
     {
+        destroi_lista(available_vertices_copy);
+        free(available_vertices_copy);
         return result;
     }
 
