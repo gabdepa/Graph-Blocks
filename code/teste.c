@@ -5,14 +5,12 @@
 
 static clock_t inicio, fim;
 
-//------------------------------------------------------------------------------
 #define CRONOMETRA(call, t) \
   inicio = clock();         \
   (call);                   \
   fim = clock();            \
   t = fim - inicio
 
-//------------------------------------------------------------------------------
 static void mostra_resposta(unsigned int n, unsigned int *r)
 {
 
@@ -24,9 +22,7 @@ static void mostra_resposta(unsigned int n, unsigned int *r)
   printf("\n");
 }
 
-//------------------------------------------------------------------------------
 // preenche proibido[0..2n-1] com as posições das diagonais do tabuleiro n x n
-//
 // devolve &(proibido[2n]): o endereço a partir do qual proibir novas posições
 static casa *proibe_diagonais(unsigned int n, casa *proibido)
 {
@@ -46,34 +42,32 @@ static casa *proibe_diagonais(unsigned int n, casa *proibido)
   return proibido + 2 * n;
 }
 
-//------------------------------------------------------------------------------
 int main(void)
 {
-
-  unsigned int n = 8;
+  unsigned int n = 16;
   unsigned int *resposta = malloc(n * sizeof(unsigned int));
 
   unsigned int k = 2 * n;
   casa *proibido = malloc(k * sizeof(casa));
-
   proibe_diagonais(n, proibido);
 
-  printf("Backtracking:\n");
+  printf("Backtracking\n");
   long int tempo_bt;
   CRONOMETRA(rainhas_bt(n, k, proibido, resposta), tempo_bt);
-  printf("Tempo backtracking: %ld\n", tempo_bt);
+  printf("Tempo Backtracking: %ld\n", tempo_bt);
+  printf("Solução: ");
   mostra_resposta(n, resposta);
 
-  printf("\nGrafo:\n");
+  printf("\nConjuntos Independentes\n");
   long int tempo_ci;
   CRONOMETRA(rainhas_ci(n, k, proibido, resposta), tempo_ci);
-  printf("Tempo Conjunto Independente: %ld\n", tempo_ci);
+  printf("Tempo Conjuntos Independentes: %ld\n", tempo_ci);
+  printf("Solução: ");
   mostra_resposta(n, resposta);
 
-  printf("%.2f\n", (double)tempo_ci / (double)tempo_bt);
+  printf("\nRazão entre BackTracking & Conjuntos Independentes: %.2f\n", (double)tempo_ci / (double)tempo_bt);
 
   free(proibido);
   free(resposta);
-
   return 0;
 }

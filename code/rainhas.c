@@ -85,124 +85,7 @@ unsigned int *rainhas_bt(unsigned int n, unsigned int k, casa *c, unsigned int *
 }
 /**************************************************BACKTRACKING***************************************************/
 
-
 /**************************************************CONJUNTOS INDEPENDENTES***************************************************/
-// Função para resolver o problema das N-rainhas com conjuntos independentes
-unsigned int *rainhas_ci(unsigned int n, unsigned int k, casa *c, unsigned int *r)
-{
-    // Verificar se todas as casas estão proibidas
-    if (k >= n * n)
-    {
-        for (unsigned int i = 0; i < n; i++)
-        {
-            r[i] = 0;
-        }
-        return r;
-    }
-
-    unsigned int *board = (unsigned int *)malloc(n * sizeof(unsigned int));
-    for (unsigned int i = 0; i < n; i++)
-    {
-        board[i] = 0;
-        r[i] = 0;
-    }
-
-    unsigned int graph_size = n * n;
-    t_lista *graph = (t_lista *)malloc(graph_size * sizeof(t_lista));
-    create_graph(board, graph, graph_size, n);
-
-    // cria conjunto independente - conjunto solucao do problema
-    t_lista independet_set, available_vertices;
-    cria_lista(&independet_set);
-
-    // criar conjunto available_vertices - conjunto que contém vértices não proibidos do grafo
-    create_available_vertices(graph_size, c, k, &available_vertices, n);
-
-    t_lista *result = ConjIndep(graph, n, &independet_set, &available_vertices);
-    if (result)
-    {
-        Node *aux = result->ini;
-        unsigned int i = 0;
-        while (aux != NULL)
-        {
-            // retorna a coluna em que esta de acordo com o valor do vertice
-            // -1 pois armazenamos a col+1 no tabuleiro e se for colocado na ultima coluna
-            // o valor do vértice % n seria 0, e em seguida adicionamos 1 novamente ao valor da coluna
-            unsigned int coluna = (aux->v - 1) % n;
-            r[i] = coluna + 1;
-            aux = aux->next;
-            i++;
-        }
-    }
-
-    free(board);
-    libera_listas(graph, graph_size, available_vertices, independet_set);
-
-    return r;
-}
-
-// Função para encontrar um conjunto independente de vértices em um grafo
-t_lista *ConjIndep(t_lista *graph, unsigned int n, t_lista *independent_set, t_lista *available_vertices)
-{
-    // Condição de parada: encontrou um conjunto independente de tamanho n
-    if (independent_set->tamanho == n)
-    {
-        return independent_set;
-    }
-
-    // Condição de parada: não é possível formar um conjunto independente de tamanho n
-    if (independent_set->tamanho + available_vertices->tamanho < n)
-    {
-        return NULL;
-    }
-
-    unsigned int v;
-    // Remove o primeiro vértice disponível
-    if (remove_primeiro_lista(&v, available_vertices) == 0)
-    {
-        return NULL;
-    }
-
-    // Cria uma cópia dos vértices disponíveis para backtracking
-    t_lista *available_vertices_copy = (t_lista *)malloc(sizeof(t_lista));
-    cria_lista(available_vertices_copy);
-    copia_lista(available_vertices, available_vertices_copy);
-
-    // Insere o vértice v + 1 no conjunto independente
-    insere_fim_lista(v + 1, independent_set);
-
-    // Remove os vizinhos de v dos vértices disponíveis
-    Node *aux = graph[v].ini;
-    while (aux != NULL)
-    {
-        unsigned int node_to_remove = aux->v;
-        unsigned int item;
-
-        if (pertence_lista(node_to_remove, available_vertices))
-        {
-            remove_item_lista(node_to_remove, &item, available_vertices);
-        }
-
-        aux = aux->next;
-    }
-
-    // Chamada recursiva para continuar construindo o conjunto independente
-    t_lista *result = ConjIndep(graph, n, independent_set, available_vertices);
-
-    if (result)
-    {
-        return result;
-    }
-
-    // Backtracking: restaura o estado anterior e tenta novamente sem o vértice v
-    remove_item_lista(v + 1, &v, independent_set);
-
-    return ConjIndep(graph, n, independent_set, available_vertices_copy);
-}
-/**************************************************CONJUNTOS INDEPENDENTES***************************************************/
-
-
-/**************************************************Implementações do GRAFO***************************************************/
 // Função para criar um grafo representando o problema das N-rainhas
 void create_graph(unsigned int *board, t_lista *graph, unsigned int graph_size, unsigned int n)
 {
@@ -289,10 +172,122 @@ void libera_listas(t_lista *graph, unsigned int graph_size, t_lista available_ve
     // Libera a lista do conjunto independente
     destroi_lista(&independet_set);
 }
-/**************************************************Implementações do GRAFO***************************************************/
 
+// Função para encontrar um conjunto independente de vértices em um grafo
+t_lista *ConjIndep(t_lista *graph, unsigned int n, t_lista *independent_set, t_lista *available_vertices)
+{
+    // Condição de parada: encontrou um conjunto independente de tamanho n
+    if (independent_set->tamanho == n)
+    {
+        return independent_set;
+    }
 
-/**************************************************Implementações da LISTA***************************************************/
+    // Condição de parada: não é possível formar um conjunto independente de tamanho n
+    if (independent_set->tamanho + available_vertices->tamanho < n)
+    {
+        return NULL;
+    }
+
+    unsigned int v;
+    // Remove o primeiro vértice disponível
+    if (remove_primeiro_lista(&v, available_vertices) == 0)
+    {
+        return NULL;
+    }
+
+    // Cria uma cópia dos vértices disponíveis para backtracking
+    t_lista *available_vertices_copy = (t_lista *)malloc(sizeof(t_lista));
+    cria_lista(available_vertices_copy);
+    copia_lista(available_vertices, available_vertices_copy);
+
+    // Insere o vértice v + 1 no conjunto independente
+    insere_fim_lista(v + 1, independent_set);
+
+    // Remove os vizinhos de v dos vértices disponíveis
+    Node *aux = graph[v].ini;
+    while (aux != NULL)
+    {
+        unsigned int node_to_remove = aux->v;
+        unsigned int item;
+
+        if (pertence_lista(node_to_remove, available_vertices))
+        {
+            remove_item_lista(node_to_remove, &item, available_vertices);
+        }
+
+        aux = aux->next;
+    }
+
+    // Chamada recursiva para continuar construindo o conjunto independente
+    t_lista *result = ConjIndep(graph, n, independent_set, available_vertices);
+
+    if (result)
+    {
+        return result;
+    }
+
+    // Backtracking: restaura o estado anterior e tenta novamente sem o vértice v
+    remove_item_lista(v + 1, &v, independent_set);
+
+    return ConjIndep(graph, n, independent_set, available_vertices_copy);
+}
+
+// Função para resolver o problema das N-rainhas com conjuntos independentes
+unsigned int *rainhas_ci(unsigned int n, unsigned int k, casa *c, unsigned int *r)
+{
+    // Verificar se todas as casas estão proibidas
+    if (k >= n * n)
+    {
+        for (unsigned int i = 0; i < n; i++)
+        {
+            r[i] = 0;
+        }
+        return r;
+    }
+
+    unsigned int *board = (unsigned int *)malloc(n * sizeof(unsigned int));
+    for (unsigned int i = 0; i < n; i++)
+    {
+        board[i] = 0;
+        r[i] = 0;
+    }
+
+    unsigned int graph_size = n * n;
+    t_lista *graph = (t_lista *)malloc(graph_size * sizeof(t_lista));
+    create_graph(board, graph, graph_size, n);
+
+    // cria conjunto independente - conjunto solucao do problema
+    t_lista independet_set, available_vertices;
+    cria_lista(&independet_set);
+
+    // criar conjunto available_vertices - conjunto que contém vértices não proibidos do grafo
+    create_available_vertices(graph_size, c, k, &available_vertices, n);
+
+    t_lista *result = ConjIndep(graph, n, &independet_set, &available_vertices);
+    if (result)
+    {
+        Node *aux = result->ini;
+        unsigned int i = 0;
+        while (aux != NULL)
+        {
+            // retorna a coluna em que esta de acordo com o valor do vertice
+            // -1 pois armazenamos a col+1 no tabuleiro e se for colocado na ultima coluna
+            // o valor do vértice % n seria 0, e em seguida adicionamos 1 novamente ao valor da coluna
+            unsigned int coluna = (aux->v - 1) % n;
+            r[i] = coluna + 1;
+            aux = aux->next;
+            i++;
+        }
+    }
+
+    free(board);
+    libera_listas(graph, graph_size, available_vertices, independet_set);
+
+    return r;
+}
+/**************************************************CONJUNTOS INDEPENDENTES***************************************************/
+
+/**************************************************LISTAS***************************************************/
 // Função para criar e inicializar uma lista ligada vazia
 int cria_lista(t_lista *l)
 {
@@ -427,19 +422,19 @@ unsigned int remove_item_lista(unsigned int v, unsigned int *item, t_lista *l)
     // Caso o elemento esteja na última posição
     else if ((aux->next == NULL) && (aux->v == v))
     {
-        *item = aux->v; // Armazena o valor do nó a ser removido
+        *item = aux->v;        // Armazena o valor do nó a ser removido
         anterior->next = NULL; // Remove o nó ajustando o ponteiro do nó anterior
     }
     // Caso o elemento esteja no meio da lista
     else
     {
-        *item = aux->v; // Armazena o valor do nó a ser removido
+        *item = aux->v;             // Armazena o valor do nó a ser removido
         anterior->next = aux->next; // Remove o nó ajustando o ponteiro do nó anterior
     }
 
     l->tamanho--; // Decrementa o tamanho da lista
-    free(aux); // Libera a memória do nó removido
-    return 1; // Retorna 1 para indicar sucesso na remoção
+    free(aux);    // Libera a memória do nó removido
+    return 1;     // Retorna 1 para indicar sucesso na remoção
 }
 
 // Função para verificar se um valor v está presente em uma lista ligada
@@ -472,20 +467,20 @@ void destroi_lista(t_lista *l)
         return; // Retorna imediatamente se a lista estiver vazia
     }
 
-    Node *aux = l->ini; // Ponteiro para o nó atual
+    Node *aux = l->ini;      // Ponteiro para o nó atual
     Node *aux_2 = aux->next; // Ponteiro para o próximo nó
 
     // Percorre a lista e libera a memória de cada nó
     while (aux_2 != NULL)
     {
-        free(aux); // Libera a memória do nó atual
-        aux = aux_2; // Atualiza aux para o próximo nó
+        free(aux);           // Libera a memória do nó atual
+        aux = aux_2;         // Atualiza aux para o próximo nó
         aux_2 = aux_2->next; // Atualiza aux_2 para o próximo nó
     }
     free(aux); // Libera a memória do último nó
 
     l->tamanho = 0; // Redefine o tamanho da lista para 0
-    l->ini = NULL; // Define o ponteiro inicial como NULL, indicando que a lista está vazia
+    l->ini = NULL;  // Define o ponteiro inicial como NULL, indicando que a lista está vazia
 }
 
 // Função para copiar todos os elementos de lista1 para lista2
@@ -497,19 +492,19 @@ int copia_lista(t_lista *lista1, t_lista *lista2)
     if (lista_vazia(lista1))
         return 0; // Retorna 0 se lista1 estiver vazia
 
-    aux_l = lista1->ini; // Inicializa o ponteiro auxiliar no início de lista1
+    aux_l = lista1->ini;                   // Inicializa o ponteiro auxiliar no início de lista1
     insere_inicio_lista(aux_l->v, lista2); // Insere o valor do primeiro nó no início de lista2
-    
+
     // Percorre lista1 a partir do segundo nó
     while (aux_l->next != NULL)
     {
-        aux_l = aux_l->next; // Atualiza aux_l para o próximo nó
+        aux_l = aux_l->next;                // Atualiza aux_l para o próximo nó
         insere_fim_lista(aux_l->v, lista2); // Insere o valor no final de lista2
     }
 
     // Atualiza o tamanho de lista2
     lista2->tamanho = lista1->tamanho;
-    
+
     return 1; // Retorna 1 para indicar sucesso na cópia
 }
-/**************************************************Implementações da LISTA***************************************************/
+/**************************************************LISTAS***************************************************/
