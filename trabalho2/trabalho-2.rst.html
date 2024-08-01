@@ -1,0 +1,997 @@
+<!--?xml version="1.0" encoding="utf-8" ?-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" data-darkreader-mode="dynamic" data-darkreader-scheme="dark"><head><style class="darkreader darkreader--fallback" media="screen"></style><style class="darkreader darkreader--text" media="screen">*:not(pre, pre *, code, [aria-hidden="true"], [class*="fa-"], .fa, .fab, .fad, .fal, .far, .fas, .fass, .fasr, .fat, .icofont, [style*="font-"], [class*="icon"], [class*="Icon"], [class*="symbol"], [class*="Symbol"], .glyphicon, [class*="material-symbol"], [class*="material-icon"], mu, [class*="mu-"], .typcn, [class*="vjs-"]) {
+  -webkit-text-stroke: 0.3px !important;
+  text-stroke: 0.3px !important;
+}</style><style class="darkreader darkreader--invert" media="screen">.jfk-bubble.gtx-bubble, .captcheck_answer_label > input + img, span#closed_text > img[src^="https://www.gstatic.com/images/branding/googlelogo"], span[data-href^="https://www.hcaptcha.com/"] > #icon, ::-webkit-calendar-picker-indicator, img.Wirisformula {
+    filter: invert(100%) hue-rotate(180deg) contrast(95%) !important;
+}</style><style class="darkreader darkreader--inline" media="screen">[data-darkreader-inline-bgcolor] {
+  background-color: var(--darkreader-inline-bgcolor) !important;
+}
+[data-darkreader-inline-bgimage] {
+  background-image: var(--darkreader-inline-bgimage) !important;
+}
+[data-darkreader-inline-border] {
+  border-color: var(--darkreader-inline-border) !important;
+}
+[data-darkreader-inline-border-bottom] {
+  border-bottom-color: var(--darkreader-inline-border-bottom) !important;
+}
+[data-darkreader-inline-border-left] {
+  border-left-color: var(--darkreader-inline-border-left) !important;
+}
+[data-darkreader-inline-border-right] {
+  border-right-color: var(--darkreader-inline-border-right) !important;
+}
+[data-darkreader-inline-border-top] {
+  border-top-color: var(--darkreader-inline-border-top) !important;
+}
+[data-darkreader-inline-boxshadow] {
+  box-shadow: var(--darkreader-inline-boxshadow) !important;
+}
+[data-darkreader-inline-color] {
+  color: var(--darkreader-inline-color) !important;
+}
+[data-darkreader-inline-fill] {
+  fill: var(--darkreader-inline-fill) !important;
+}
+[data-darkreader-inline-stroke] {
+  stroke: var(--darkreader-inline-stroke) !important;
+}
+[data-darkreader-inline-outline] {
+  outline-color: var(--darkreader-inline-outline) !important;
+}
+[data-darkreader-inline-stopcolor] {
+  stop-color: var(--darkreader-inline-stopcolor) !important;
+}
+[data-darkreader-inline-bg] {
+  background: var(--darkreader-inline-bg) !important;
+}
+[data-darkreader-inline-invert] {
+    filter: invert(100%) hue-rotate(180deg);
+}</style><style class="darkreader darkreader--variables" media="screen">:root {
+   --darkreader-neutral-background: #0e1011;
+   --darkreader-neutral-text: #dcd8d3;
+   --darkreader-selection-background: #004aac;
+   --darkreader-selection-text: #edebe8;
+}</style><style class="darkreader darkreader--root-vars" media="screen"></style><style class="darkreader darkreader--user-agent" media="screen">@layer {
+html {
+    background-color: #131516 !important;
+}
+html {
+    color-scheme: dark !important;
+}
+iframe {
+    color-scheme: initial;
+}
+html, body, input, textarea, select, button, dialog {
+    background-color: #131516;
+}
+html, body, input, textarea, select, button {
+    border-color: #726a5c;
+    color: #edebe8;
+}
+a {
+    color: #2f92ff;
+}
+table {
+    border-color: #52595c;
+}
+mark {
+    color: #edebe8;
+}
+::placeholder {
+    color: #b5ada3;
+}
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+    background-color: #3d4100 !important;
+    color: #edebe8 !important;
+}
+::-webkit-scrollbar {
+    background-color: #1b1e1f;
+    color: #ada69a;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #42474a;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: #555c61;
+}
+::-webkit-scrollbar-thumb:active {
+    background-color: #454c4f;
+}
+::-webkit-scrollbar-corner {
+    background-color: #131516;
+}
+* {
+    scrollbar-color: #42474a #1b1e1f;
+}
+::selection {
+    background-color: #004aac !important;
+    color: #edebe8 !important;
+}
+::-moz-selection {
+    background-color: #004aac !important;
+    color: #edebe8 !important;
+}
+}</style>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/">
+<title>trabalho-2.rst</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 8954 2022-01-20 10:10:25Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style><style class="darkreader darkreader--sync" media="screen"></style>
+<style type="text/css">
+
+/*
+*   math2html: convert LaTeX equations to HTML output.
+*
+*   Copyright (C) 2009,2010 Alex Fernández
+*                 2021      Günter Milde
+*
+*   Released under the terms of the `2-Clause BSD license'_, in short:
+*   Copying and distribution of this file, with or without modification,
+*   are permitted in any medium without royalty provided the copyright
+*   notice and this notice are preserved.
+*   This file is offered as-is, without any warranty.
+*
+* .. _2-Clause BSD license: http://www.spdx.org/licenses/BSD-2-Clause
+*
+*   Based on eLyXer: convert LyX source files to HTML output.
+*   http://elyxer.nongnu.org/
+*
+*
+* CSS file for LaTeX formulas.
+*
+* References: http://www.zipcon.net/~swhite/docs/math/math.html
+*             http://www.cs.tut.fi/~jkorpela/math/
+*/
+
+/* Formulas */
+.formula {
+	text-align: center;
+	margin: 1.2em 0;
+	line-height: 1.4;
+}
+span.formula {
+	white-space: nowrap;
+}
+div.formula {
+	padding: 0.5ex;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* Basic features */
+a.eqnumber {
+	display: inline-block;
+	float: right;
+	clear: right;
+	font-weight: bold;
+}
+span.unknown {
+	color: #800000;
+}
+span.ignored, span.arraydef {
+	display: none;
+}
+.phantom {
+	visibility: hidden;
+}
+.formula i {
+	letter-spacing: 0.1ex;
+}
+
+/* Alignment */
+.align-left, .align-l {
+	text-align: left;
+}
+.align-right, .align-r {
+	text-align: right;
+}
+.align-center, .align-c {
+	text-align: center;
+}
+
+/* Structures */
+span.hspace {
+	display: inline-block;
+}
+span.overline, span.bar {
+	text-decoration: overline;
+}
+.fraction, .fullfraction, .textfraction {
+	display: inline-block;
+	vertical-align: middle;
+	text-align: center;
+}
+span.formula .fraction,
+.textfraction,
+span.smallmatrix {
+	font-size: 80%;
+	line-height: 1;
+}
+span.numerator {
+	display: block;
+	line-height: 1;
+}
+span.denominator {
+	display: block;
+	line-height: 1;
+	padding: 0ex;
+	border-top: thin solid;
+}
+.formula sub, .formula sup {
+	font-size: 80%;
+}
+sup.numerator, sup.unit {
+	vertical-align: 80%;
+}
+sub.denominator, sub.unit {
+	vertical-align: -20%;
+}
+span.smallsymbol {
+	font-size: 75%;
+	line-height: 75%;
+}
+span.boldsymbol {
+	font-weight: bold;
+}
+span.sqrt {
+	display: inline-block;
+	vertical-align: middle;
+	padding: 0.1ex;
+}
+sup.root {
+	position: relative;
+	left: 1.4ex;
+}
+span.radical {
+	display: inline-block;
+	padding: 0ex;
+	/* font-size: 160%; for DejaVu, not required with STIX */
+	line-height: 100%;
+	vertical-align: top;
+	vertical-align: middle;
+}
+
+span.root {
+	display: inline-block;
+	border-top: thin solid;
+	padding: 0ex;
+	vertical-align: middle;
+}
+div.formula .bigoperator,
+.displaystyle .bigoperator,
+.displaystyle .bigoperator {
+	line-height: 120%;
+	font-size: 140%;
+	padding-right: 0.2ex;
+}
+span.fraction .bigoperator,
+span.scriptstyle .bigoperator {
+	line-height: inherit;
+	font-size: inherit;
+	padding-right: 0;
+}
+span.bigdelimiter {
+	display: inline-block;
+}
+span.bigdelimiter.size1 {
+	transform: scale(1, 1.2);
+	line-height: 1.2;
+}
+span.bigdelimiter.size2 {
+	transform: scale(1, 1.62);
+	line-height: 1.62%;
+
+}
+span.bigdelimiter.size3 {
+	transform: scale(1, 2.05);
+	line-height: 2.05%;
+}
+span.bigdelimiter.size4 {
+	transform: scale(1, 2.47);
+	line-height: 2.47%;
+}
+/* vertically stacked sub and superscript */
+span.scripts {
+	display: inline-table;
+	vertical-align: middle;
+	padding-right: 0.2ex;
+}
+.script {
+	display: table-row;
+	text-align: left;
+	line-height: 150%;
+}
+span.limits {
+	display: inline-table;
+	vertical-align: middle;
+}
+.limit {
+	display: table-row;
+	line-height: 99%;
+}
+sup.limit, sub.limit {
+	line-height: 100%;
+}
+span.embellished,
+span.embellished > .base {
+	display: inline-block;
+}
+span.embellished > sup,
+span.embellished > sub {
+	display: inline-block;
+	font-size: 100%;
+	position: relative;
+	bottom: 0.3em;
+	width: 0px;
+}
+span.embellished > sub {
+	top: 0.4em;
+}
+
+/* Environments */
+span.array, span.bracketcases, span.binomial, span.environment {
+	display: inline-table;
+	text-align: center;
+	vertical-align: middle;
+}
+span.arrayrow, span.binomrow {
+	display: table-row;
+	padding: 0;
+	border: 0;
+}
+span.arraycell, span.bracket, span.case, span.binomcell, span.environmentcell {
+	display: table-cell;
+	padding: 0ex 0.2ex;
+	line-height: 1; /* 99%; */
+	border: 0ex;
+}
+.environment.align > .arrayrow > .arraycell.align-l {
+	padding-right: 2em;
+}
+
+/* Inline binomials */
+span.binom {
+	display: inline-block;
+	vertical-align: middle;
+	text-align: center;
+	font-size: 80%;
+}
+span.binomstack {
+	display: block;
+	padding: 0em;
+}
+
+/* Over- and underbraces */
+span.overbrace {
+	border-top: 2pt solid;
+}
+span.underbrace {
+	border-bottom: 2pt solid;
+}
+
+/* Stackrel */
+span.stackrel {
+	display: inline-block;
+	text-align: center;
+}
+span.upstackrel {
+	display: block;
+	padding: 0em;
+	font-size: 80%;
+	line-height: 64%;
+	position: relative;
+	top: 0.15em;
+
+}
+span.downstackrel {
+	display: block;
+	vertical-align: bottom;
+	padding: 0em;
+}
+
+/* Fonts */
+.formula {
+	font-family: STIX, "DejaVu Serif", "DejaVu Math TeX Gyre", serif;
+}
+span.radical,   /* ensure correct size of square-root sign */
+span.integral { /* upright integral signs for better alignment of indices */
+	font-family: "STIXIntegralsUp", STIX;
+	/* font-size: 115%; match apparent size with DejaVu */
+}
+span.bracket {
+  /* some "STIX" and "DejaVu Math TeX Gyre" bracket pieces don't fit */
+	font-family: "DejaVu Serif", serif;
+}
+span.mathsf, span.textsf {
+	font-family: sans-serif;
+}
+span.mathrm, span.textrm {
+	font-family: STIX, "DejaVu Serif", "DejaVu Math TeX Gyre", serif;
+}
+span.mathtt, span.texttt {
+	font-family: monospace;
+}
+span.text, span.textnormal,
+span.mathsf, span.mathtt, span.mathrm {
+	font-style: normal;
+}
+span.fraktur {
+	font-family: "Lucida Blackletter", eufm10, blackletter;
+}
+span.blackboard {
+	font-family: Blackboard, msbm10, serif;
+}
+span.scriptfont {
+	font-family: "Monotype Corsiva", "Apple Chancery", "URW Chancery L", cursive;
+	font-style: italic;
+}
+span.mathscr {
+  font-family: MathJax_Script, rsfs10,  cursive;
+  font-style: italic;
+}
+span.textsc {
+	font-variant: small-caps;
+}
+span.textsl {
+	font-style: oblique;
+}
+
+/* Colors */
+span.colorbox {
+	display: inline-block;
+	padding: 5px;
+}
+span.fbox {
+	display: inline-block;
+	border: thin solid black;
+	padding: 2px;
+}
+span.boxed, span.framebox {
+	display: inline-block;
+	border: thin solid black;
+	padding: 5px;
+}
+
+</style><style class="darkreader darkreader--sync" media="screen"></style>
+<meta name="darkreader" content="f811a390262a432eacbcd03b242a50c5"><style class="darkreader darkreader--override" media="screen">.vimvixen-hint {
+    background-color: #7b5100 !important;
+    border-color: #dcb20d !important;
+    color: #f9edcc !important;
+}
+#vimvixen-console-frame {
+    color-scheme: light !important;
+}
+::placeholder {
+    opacity: 0.5 !important;
+}
+#edge-translate-panel-body,
+.MuiTypography-body1,
+.nfe-quote-text {
+    color: var(--darkreader-neutral-text) !important;
+}
+gr-main-header {
+    background-color: #0a3745 !important;
+}
+.tou-z65h9k,
+.tou-mignzq,
+.tou-1b6i2ox,
+.tou-lnqlqk {
+    background-color: var(--darkreader-neutral-background) !important;
+}
+.tou-75mvi {
+    background-color: #001b25 !important;
+}
+.tou-ta9e87,
+.tou-1w3fhi0,
+.tou-1b8t2us,
+.tou-py7lfi,
+.tou-1lpmd9d,
+.tou-1frrtv8,
+.tou-17ezmgn {
+    background-color: #040404 !important;
+}
+.tou-uknfeu {
+    background-color: #1e1000 !important;
+}
+.tou-6i3zyv {
+    background-color: #14556b !important;
+}
+div.mermaid-viewer-control-panel .btn {
+    background-color: var(--darkreader-neutral-background);
+    fill: var(--darkreader-neutral-text);
+}
+svg g rect.er {
+    fill: var(--darkreader-neutral-background) !important;
+}
+svg g rect.er.entityBox {
+    fill: var(--darkreader-neutral-background) !important;
+}
+svg g rect.er.attributeBoxOdd {
+    fill: var(--darkreader-neutral-background) !important;
+}
+svg g rect.er.attributeBoxEven {
+    fill: var(--darkreader-selection-background);
+    fill-opacity: 0.8 !important;
+}
+svg rect.er.relationshipLabelBox {
+    fill: var(--darkreader-neutral-background) !important;
+}
+svg g g.nodes rect,
+svg g g.nodes polygon {
+    fill: var(--darkreader-neutral-background) !important;
+}
+svg g rect.task {
+    fill: var(--darkreader-selection-background) !important;
+}
+svg line.messageLine0,
+svg line.messageLine1 {
+    stroke: var(--darkreader-neutral-text) !important;
+}
+div.mermaid .actor {
+    fill: var(--darkreader-neutral-background) !important;
+}
+mitid-authenticators-code-app > .code-app-container {
+    background-color: white !important;
+    padding-top: 1rem;
+}
+iframe#unpaywall[src$="unpaywall.html"] {
+    color-scheme: light !important;
+}
+embed[type="application/pdf"] { filter: invert(100%) contrast(90%); }</style></head>
+<body>
+<div class="document">
+
+
+<style>
+body { background-color : #ffffcc; }
+h1, h2, h3, h4, h5, h6 { text-align : center; }
+.centered { text-align : center; vertical-align : middle; }
+</style><style class="darkreader darkreader--sync" media="screen"></style><div class="section" id="trabalho-de-implementacao-2">
+<h1>Trabalho de Implementação 2</h1>
+<div class="section" id="ci1065-algoritmos-e-teoria-dos-grafos">
+<h2>CI1065 - Algoritmos e Teoria dos Grafos</h2>
+<div class="section" id="importante">
+<h3>Importante</h3>
+<p>Este trabalho é <strong>opcional</strong>. A nota de "trabalhos de implementação"
+será a maior nota dentre as dos trabalhos entregues.</p>
+<hr class="docutils">
+<p>A decomposição de um grafo em blocos é um pré-processamento importante
+quando um problema computacional sobre um grafo pode ser reduzido ao
+mesmo problema aplicado a cada um de seus blocos, dentro do conhecido
+esquema de divisão e conquista.</p>
+<p>São exemplos disso os problemas de decidir a planaridade de um grafo,
+colorir seus vértices ou colorir suas arestas.</p>
+<p>A divisão e conquista, nestes casos, consiste em decompor o grafo em
+blocos e aplicar separadamente (em paralelo, se for o caso) um
+algoritmo para o problema a cada um dos blocos.</p>
+<p>Um caso de particular interesse acontece na situação em que se tem um
+algoritmo (exponencial) que toma tempo <span class="formula"><i>O</i>(2<sup><i>n</i></sup>)</span> para o problema
+computacional em questão. Se o grafo de entrada tem <span class="formula"><i>n</i></span> vértices
+e seu maior bloco tem <span class="formula"><i>k</i></span> vértices, então a estratégia descrita
+acima resolve o problema em tempo <span class="formula"><i>O</i>(<i>n</i><sup><i>c</i></sup>)</span> onde <span class="formula"><i>c</i> = <i>k</i> ⁄ log<i>n</i></span>.  Noutras palavras, o algoritmo exponencial computa
+instâncias que podem ser decompostas assim em tempo polinomial.</p>
+<p>Este trabalho consiste na implementação de uma função que recebe um grafo e
+devolve uma análise dos tamanhos de seus blocos, fornecendo assim uma
+ideia do quão promissora é esta estratégia de divisão e conquista.</p>
+<hr class="docutils">
+<p>A especificação do trabalho está em <a class="reference external" href="https://www.inf.ufpr.br/renato/ci1065/trabalho-2.tar.gz">trabalho-2.tar.gz</a>, onde você
+vai encontrar os seguintes arquivos.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal"><span class="pre">trabalho-2/blocos.h</span></tt>:</th></tr>
+<tr class="field"><td>&nbsp;</td><td class="field-body">a especificação do que deve ser implementado;</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal"><span class="pre">trabalho-2/{teste.c,makefile}</span></tt>:</th></tr>
+<tr class="field"><td>&nbsp;</td><td class="field-body">como no <a class="reference external" href="https://www.inf.ufpr.br/renato/ci1065/trabalho-1.html">primeiro trabalho</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<hr class="docutils">
+<div class="section" id="entrega">
+<h1>Entrega</h1>
+<p>O trabalho deve ser entregue sob a forma de um arquivo de nome
+<tt class="docutils literal"><span class="pre">fulano-sicrano.tar.gz</span></tt>, como no <a class="reference external" href="https://www.inf.ufpr.br/renato/ci1065/trabalho-1.html">primeiro trabalho</a></p>
+<p>O arquivo <tt class="docutils literal"><span class="pre">fulano-sicrano.tar.gz</span></tt>, uma  vez expandido, deve conter
+(<strong>somente</strong>) os seguintes arquivos.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal"><span class="pre">fulano-sicrano/blocos.c</span></tt>:</th></tr>
+<tr class="field"><td>&nbsp;</td><td class="field-body">a   implementação   do  especificado   em
+<tt class="docutils literal"><span class="pre">trabalho-2/blocos.h</span></tt>.</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal"><span class="pre">fulano-sicrano/readme.txt</span></tt>:</th></tr>
+<tr class="field"><td>&nbsp;</td><td class="field-body">como no <a class="reference external" href="https://www.inf.ufpr.br/renato/ci1065/trabalho-1.html">primeiro trabalho</a></td>
+</tr>
+</tbody>
+</table>
+<p>O arquivo <tt class="docutils literal"><span class="pre">fulano-sicrano.tar.gz</span></tt> deve ser entregue como anexo de
+mensagem enviada para <a class="reference external" href="mailto:m.v.g.dasilva@gmail.com">m.v.g.dasilva@gmail.com</a> (Turma BCC1) ou
+<a class="reference external" href="mailto:renato.carmo.rc@gmail.com">renato.carmo.rc@gmail.com</a> (Turma BCC2).  O "<tt class="docutils literal">Subject:</tt>"
+desta mensagem deve ser "<tt class="docutils literal">Entrega do trabalho 2</tt>".</p>
+<p>O prazo para a entrega é às <strong>23h59min do dia 4 de agosto</strong>.</p>
+</div>
+<hr class="docutils">
+<div class="section" id="avaliacao">
+<h1>Avaliação</h1>
+<p>Serão avaliados a correção e a aderência à especificação
+como no primeiro trabalho.  Não haverá, entretanto, avaliação por
+tempo de execução com formação de "ranking".</p>
+<hr class="docutils">
+<div class="section" id="perguntas-frequentes">
+<span id="faq"></span><h2>Perguntas Frequentes</h2>
+<p>Veja as <a class="reference external" href="https://www.inf.ufpr.br/renato/ci1065/trabalho-1.html#faq">Perguntas Frequentes do primeiro trabalho</a></p>
+<ol class="arabic">
+<li><p class="first"><em>Tenho outra pergunta/dúvida a respeito do trabalho que não está
+respondida nas `Perguntas Frequentes do primeiro trabalho &lt;trabalho-1.html#faq&gt;`.</em></p>
+<p><a class="reference external" href="mailto:Algoritmos%20e%20Teoria%20dos%20Grafos%20%3Cci1065@listas.inf.ufpr.br%3E">Envie mensagem para a lista da disciplina</a>.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+</body></html>
