@@ -159,7 +159,7 @@ void APUtil(Graph *graph, int u, bool visited[], int disc[], int low[], int pare
 }
 
 // Function to find and print all articulation points
-bool findArticulationPoints(Graph *graph, bool *isArticulationPoint)
+int findArticulationPoints(Graph *graph, bool *isArticulationPoint)
 {
     printf("\n\n%s%s:: ARTICULATION POINTS ::%s\n", bold, purple, reset);
     bool *visited = (bool *)malloc(graph->V * sizeof(bool));
@@ -167,7 +167,7 @@ bool findArticulationPoints(Graph *graph, bool *isArticulationPoint)
     int *low = (int *)malloc(graph->V * sizeof(int));
     int *parent = (int *)malloc(graph->V * sizeof(int));
     int time = 0;
-    bool flag = false;
+    int count = 0;
 
     // Initializion of arrays
     for (int i = 0; i < graph->V; i++)
@@ -191,7 +191,7 @@ bool findArticulationPoints(Graph *graph, bool *isArticulationPoint)
         if (isArticulationPoint[i] == true)
         {
             printf("%s%s%d%s ", bold, white, i + 1, reset); // Adjusted for 1-based indexing
-            flag = true;
+            count++;
         }
     }
     // Freeing structs used
@@ -201,13 +201,13 @@ bool findArticulationPoints(Graph *graph, bool *isArticulationPoint)
     free(parent);
 
     // Flag is true if the graph have at least one articulation point
-    return flag;
+    return count;
 }
 
 void DFSBlock(Graph *graph, int v, bool *visited, bool *isArticulationPoint, int *blockSize)
 {
     // Print the current vertex where DFS is running (adjusting for 1-based indexing)
-    printf("Current running DFS on vertx: %d\n", v + 1);
+    printf("Current running DFS on vertex: %d\n", v + 1);
     visited[v] = true;
     (*blockSize)++;
     AdjListNode *pCrawl = graph->array[v].head;
@@ -232,8 +232,7 @@ void analyzeBlocks(Graph *graph)
         visited[i] = false;
     }
     // Find articulation points
-    bool hasArticulationPoint = findArticulationPoints(graph, isArticulationPoint);
-
+    int numArticulationPoints = findArticulationPoints(graph, isArticulationPoint);
     int numBlocks = 0;
     int blockSize = 0;
     printf("\n\n%s%s:: BLOCKS ANALYSIS ::%s\n", bold, purple, reset);
@@ -246,14 +245,22 @@ void analyzeBlocks(Graph *graph)
         // If the vertex has not been visited or is not an articulation point
         if (!visited[i] && !isArticulationPoint[i])
         {
-            blockSize = hasArticulationPoint ? 1 : 0; // Account the articulation point, if it have, starts with it
+            // printf("numarticulatioon points: %d\n", numArticulationPoints);
+            // If have articulation point consider it in the size
+            blockSize = (numArticulationPoints > 0) ? 1 : 0;
+            // Run DFS to verify how many vertex are in the block
             DFSBlock(graph, i, visited, isArticulationPoint, &blockSize);
             if (blockSize > 0) // Ensure to only count non-zero blocks
             {
+                // Information of the block
                 printf("%sBlock %d: Size %d%s\n\n", bold, numBlocks + 1, blockSize, reset);
+                // Increase the number of blocks found
                 numBlocks++;
+                // Decrease the number of articulation points left to verify
+                numArticulationPoints = (numArticulationPoints > 0) ? numArticulationPoints-1 : 0; 
             }
         }
+        
     }
     printf("%s%sTotal number of blocks: %d%s\n", bold, purple, numBlocks, reset);
     // Freeing structs used
