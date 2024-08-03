@@ -25,9 +25,10 @@ typedef struct info_t {
 // Por exemplo, a sequência abaixo representa um grafo com quatro vértices,
 // onde três deles formam um triângulo e o quarto é um vértice isolado.
 //
-// 4 1 4 
-// 1
-// 3 4 3
+// 4 
+// 1 4 
+// 1 3
+// 4 3
 //
 // A função recebe como argumento um ponteiro para um 'unsigned int' em que
 // escreve o número de blocos, k, do grafo lido.

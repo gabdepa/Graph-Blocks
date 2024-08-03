@@ -74,6 +74,30 @@ void DFS(Graph* graph, int u, bool* visited, int* disc, int* low, int* parent, b
     }
 }
 
+void printGraph(Graph* graph) {
+    printf("Representação gráfica do grafo:\n\n");
+
+    // Criar uma matriz para armazenar a posição dos vértices
+    int posX[graph->V], posY[graph->V];
+    for (int i = 0; i < graph->V; i++) {
+        posX[i] = i * 4; // Espaço horizontal entre os vértices
+        posY[i] = i * 2; // Espaço vertical entre os vértices
+    }
+
+    // Imprimir os vértices
+    for (int i = 0; i < graph->V; i++) {
+        printf("%*s%d\n", posX[i], "", i);
+        AdjListNode* pCrawl = graph->array[i].head;
+        while (pCrawl) {
+            int dest = pCrawl->dest;
+            printf("%*s|\n", posX[i], "");
+            printf("%*s|\n", posX[i], "");
+            printf("%*s%d\n", posX[dest], "", dest);
+            pCrawl = pCrawl->next;
+        }
+    }
+}
+
 info_t* info_blocos(unsigned int* num_blocos) {
     int V, src, dest;
     if (scanf("%d", &V) != 1) {
@@ -122,6 +146,8 @@ info_t* info_blocos(unsigned int* num_blocos) {
             }
         }
     }
+
+    printGraph(graph);
 
     // Limpeza de memória alocada
     free(visited);
