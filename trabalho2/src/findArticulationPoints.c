@@ -2,6 +2,13 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+// ANSI escape codes for colors and styles
+char *reset = "\033[0m"; // Reset all styles
+char *bold = "\033[1m";  // Bold text
+char *red = "\033[31m";  // Red
+char *white = "\033[37m";
+char *purple = "\033[95m"; // Bright magenta (light purple)
+
 // Structure to represent an adjacency list node
 typedef struct AdjListNode
 {
@@ -68,7 +75,7 @@ void printGraph(Graph *graph)
             printf("-> %d", pCrawl->dest + 1); // Adjust for 1-based indexing
             pCrawl = pCrawl->next;
         }
-        printf("\n\n");
+        printf("\n");
     }
 }
 
@@ -114,7 +121,7 @@ Graph *readGraphFromFile(const char *filename)
 }
 
 // Recursive function to find articulation points using DFS
-void APUtil(Graph *graph, int u, bool visited[], int disc[], int low[], int parent[], bool ap[], int *time)
+void APUtil(Graph *graph, int u, bool visited[], int disc[], int low[], int parent[], bool isArticulationPoint[], int *time)
 {
     int children = 0;
     visited[u] = true;
@@ -128,18 +135,18 @@ void APUtil(Graph *graph, int u, bool visited[], int disc[], int low[], int pare
         {
             children++;
             parent[v] = u;
-            APUtil(graph, v, visited, disc, low, parent, ap, time);
+            APUtil(graph, v, visited, disc, low, parent, isArticulationPoint, time);
             // Check if the subtree rooted at v has a connection back to one of u's ancestors
             low[u] = (low[u] < low[v]) ? low[u] : low[v];
             // (1) u is an articulation point if it is not the root and low[v] >= disc[u]
             if (parent[u] != -1 && low[v] >= disc[u])
             {
-                ap[u] = true;
+                isArticulationPoint[u] = true;
             }
             // (2) u is an articulation point if it is the root and has two or more children
             if (parent[u] == -1 && children > 1)
             {
-                ap[u] = true;
+                isArticulationPoint[u] = true;
             }
         }
         else if (v != parent[u])
@@ -152,52 +159,57 @@ void APUtil(Graph *graph, int u, bool visited[], int disc[], int low[], int pare
 }
 
 // Function to find and print all articulation points
-void findArticulationPoints(Graph *graph, bool *ap)
+bool findArticulationPoints(Graph *graph, bool *isArticulationPoint)
 {
+    printf("\n\n%s%s:: ARTICULATION POINTS ::%s\n", bold, purple, reset);
     bool *visited = (bool *)malloc(graph->V * sizeof(bool));
     int *disc = (int *)malloc(graph->V * sizeof(int));
     int *low = (int *)malloc(graph->V * sizeof(int));
     int *parent = (int *)malloc(graph->V * sizeof(int));
-    // bool *ap = (bool *)malloc(graph->V * sizeof(bool));
     int time = 0;
+    bool flag = false;
 
+    // Initializion of arrays
     for (int i = 0; i < graph->V; i++)
     {
         parent[i] = -1;
         visited[i] = false;
-        ap[i] = false;
+        isArticulationPoint[i] = false;
     }
-
+    // For each non visited graph, call DFS that find articulation points
     for (int i = 0; i < graph->V; i++)
     {
         if (!visited[i])
         {
-            APUtil(graph, i, visited, disc, low, parent, ap, &time);
+            APUtil(graph, i, visited, disc, low, parent, isArticulationPoint, &time);
         }
     }
 
-    printf("Articulation points in the graph:\n");
+    printf("%s%sArticulation points in the graph:%s ", bold, white, reset);
     for (int i = 0; i < graph->V; i++)
     {
-        if (ap[i] == true)
+        if (isArticulationPoint[i] == true)
         {
-            printf("%d\n", i + 1); // Adjusted for 1-based indexing
+            printf("%s%s%d%s ", bold, white, i + 1, reset); // Adjusted for 1-based indexing
+            flag = true;
         }
     }
-
+    // Freeing structs used
     free(visited);
     free(disc);
     free(low);
     free(parent);
-    // free(ap);
+
+    // Flag is true if the graph have at least one articulation point
+    return flag;
 }
 
 void DFSBlock(Graph *graph, int v, bool *visited, bool *isArticulationPoint, int *blockSize)
 {
+    // Print the current vertex where DFS is running (adjusting for 1-based indexing)
+    printf("Current running DFS on vertx: %d\n", v + 1);
     visited[v] = true;
     (*blockSize)++;
-    // Print the current vertex (adjusting for 1-based indexing)
-    printf("Current v: %d\n", v + 1);
     AdjListNode *pCrawl = graph->array[v].head;
     while (pCrawl != NULL)
     {
@@ -214,56 +226,63 @@ void analyzeBlocks(Graph *graph)
 {
     bool *visited = (bool *)malloc(graph->V * sizeof(bool));
     bool *isArticulationPoint = (bool *)malloc(graph->V * sizeof(bool));
-
     // Initialize arrays
     for (int i = 0; i < graph->V; i++)
     {
         visited[i] = false;
     }
-
     // Find articulation points
-    findArticulationPoints(graph, isArticulationPoint);
+    bool hasArticulationPoint = findArticulationPoints(graph, isArticulationPoint);
 
     int numBlocks = 0;
-    printf("\nBLOCKS ANALYSIS:\n");
+    int blockSize = 0;
+    printf("\n\n%s%s:: BLOCKS ANALYSIS ::%s\n", bold, purple, reset);
 
-    // Traverse all vertices
+    // For all vertices in the graph
     for (int i = 0; i < graph->V; i++)
     {
         if (isArticulationPoint[i] == true)
-            printf("Current articulation point vertex: %d\n\n", i + 1);
+            printf("%s%sCurrent articulation point vertex: %d%s\n\n", bold, white, i + 1, reset);
+        // If the vertex has not been visited or is not an articulation point
         if (!visited[i] && !isArticulationPoint[i])
         {
-            int blockSize = 1; // Account the articulation point
+            blockSize = hasArticulationPoint ? 1 : 0; // Account the articulation point, if it have, starts with it
             DFSBlock(graph, i, visited, isArticulationPoint, &blockSize);
             if (blockSize > 0) // Ensure to only count non-zero blocks
             {
-                printf("Block %d: Size %d\n\n", numBlocks + 1, blockSize);
+                printf("%sBlock %d: Size %d%s\n\n", bold, numBlocks + 1, blockSize, reset);
                 numBlocks++;
             }
         }
     }
-
-    printf("Total number of blocks: %d\n", numBlocks);
-
+    printf("%s%sTotal number of blocks: %d%s\n", bold, purple, numBlocks, reset);
+    // Freeing structs used
     free(visited);
     free(isArticulationPoint);
 }
 
-int main()
+int main(int argc, char *argv[])
 {
-    Graph *graph = readGraphFromFile("inputs/random.txt");
-    // Alocação do array para armazenar pontos de articulação
-    // bool *isArticulationPoint = (bool *)malloc(graph->V * sizeof(bool));
+    if (argc < 2)
+    {
+        printf("%sUsage: %s <filename>%s\n", bold, argv[0], reset);
+        return 1;
+    }
+    // Name of the file where the graph is located
+    const char *filename = argv[1];
+    // Read graph from file specified
+    Graph *graph = readGraphFromFile(filename);
+
     if (graph != NULL)
     {
+        printf("%s%s:: GRAPH READ ::%s\n", bold, purple, reset);
         printGraph(graph);
-        // findArticulationPoints(graph, isArticulationPoint);
-        // Análise dos blocos do grafo
+        // Find and analyse the blocks of the graph
         analyzeBlocks(graph);
-        // Liberação de memória
-        // free(isArticulationPoint);
+        // Memory free
         freeGraph(graph);
+        return 0;
     }
-    return 0;
+    printf("%s%sERROR => Could not initialize graph from file. Exiting...%s\n", bold, red, reset);
+    return 1;
 }
