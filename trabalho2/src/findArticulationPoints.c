@@ -29,16 +29,60 @@ typedef struct Graph
     AdjList *array; // Array of adjacency lists
 } Graph;
 
-// Function to create a new adjacency list node
+// Create a new adjacency list node
 AdjListNode *newAdjListNode(int dest)
 {
+    // Allocate memory for a new adjacency list node
     AdjListNode *newNode = (AdjListNode *)malloc(sizeof(AdjListNode));
+    // Set the destination vertex
     newNode->dest = dest;
+    // Initialize the next pointer
     newNode->next = NULL;
+    // Return the new node
     return newNode;
 }
 
-// Function to create a graph with V vertices
+// Print the adjacency list representation of the graph
+void printGraph(Graph *graph)
+{
+    // Print header for graph visualization
+    printf("%s%s:: GRAPH READ ::%s\n", bold, purple, reset);
+    // Loop through each vertex in the graph
+    for (int v = 0; v < graph->V; ++v)
+    {
+        AdjListNode *pCrawl = graph->array[v].head;
+        // Print the adjacency list for vertex v (1-based index)
+        printf("%s%sAdjacency list of vertex %s%d: (head)%s ", bold, white, purple, v + 1, reset);
+        while (pCrawl)
+        {
+            // Print the destination vertex of each edge (1-based index)
+            printf("-> %s%d%s ", bold, pCrawl->dest + 1, reset);
+            pCrawl = pCrawl->next;
+        }
+        printf("\n"); // New line after each adjacency list
+    }
+}
+
+// Free the graph
+void freeGraph(Graph *graph)
+{
+    // Loop through each vertex
+    for (int i = 0; i < graph->V; ++i)
+    {
+        AdjListNode *current = graph->array[i].head;
+        // Free all nodes in the adjacency list of the current vertex
+        while (current != NULL)
+        {
+            AdjListNode *temp = current;
+            current = current->next;
+            free(temp); // Free the current node
+        }
+    }
+    free(graph->array); // Free the array of adjacency lists
+    free(graph);        // Free the graph structure
+}
+
+// Create a graph with "V" vertexs
 Graph *createGraph(int V)
 {
     Graph *graph = (Graph *)malloc(sizeof(Graph));
@@ -49,73 +93,41 @@ Graph *createGraph(int V)
     return graph;
 }
 
-// Function to add an edge to an undirected graph
+// Add an edge to an undirected graph
 void addEdge(Graph *graph, int src, int dest)
 {
     // Add an edge from src to dest
     AdjListNode *newNode = newAdjListNode(dest);
     newNode->next = graph->array[src].head;
     graph->array[src].head = newNode;
-
     // Since the graph is undirected, add an edge from dest to src as well
     newNode = newAdjListNode(src);
     newNode->next = graph->array[dest].head;
     graph->array[dest].head = newNode;
 }
 
-// Function to print the adjacency list representation of the graph
-void printGraph(Graph *graph)
-{
-    for (int v = 0; v < graph->V; ++v)
-    {
-        AdjListNode *pCrawl = graph->array[v].head;
-        printf("Adjacency list of vertex %d\n head ", v + 1); // Adjust for 1-based indexing
-        while (pCrawl)
-        {
-            printf("-> %d", pCrawl->dest + 1); // Adjust for 1-based indexing
-            pCrawl = pCrawl->next;
-        }
-        printf("\n");
-    }
-}
-
-// Function to free the graph
-void freeGraph(Graph *graph)
-{
-    for (int i = 0; i < graph->V; ++i)
-    {
-        AdjListNode *current = graph->array[i].head;
-        while (current != NULL)
-        {
-            AdjListNode *temp = current;
-            current = current->next;
-            free(temp);
-        }
-    }
-    free(graph->array);
-    free(graph);
-}
-
-// Function to read graph from file and create graph
+// Read formatted input from file and create a graph
 Graph *readGraphFromFile(const char *filename)
 {
+    // Try to open the file read-only
     FILE *file = fopen(filename, "r");
     if (file == NULL)
     {
-        printf("Could not open file %s\n", filename);
-        return NULL;
+        // Could not open the file
+        printf("%s%sERROR => Could not open file %s\n%s", bold, red, filename, reset);
+        exit(1);
     }
-
+    // Read the total number of vertex in the graph
     int V;
     fscanf(file, "%d", &V);
+    // Create the graph with the number of vertex read
     Graph *graph = createGraph(V);
 
+    // Populate the Adjacency List with the edges
     int src, dest;
     while (fscanf(file, "%d %d", &src, &dest) != EOF)
-    {
-        addEdge(graph, src - 1, dest - 1); // Adjust for 0-based indexing
-    }
-
+        addEdge(graph, src - 1, dest - 1); // Adjust for 0-based indexing in C
+    // Return the graph created
     fclose(file);
     return graph;
 }
@@ -123,60 +135,71 @@ Graph *readGraphFromFile(const char *filename)
 // Recursive function to find articulation points using DFS
 void APUtil(Graph *graph, int u, bool visited[], int disc[], int low[], int parent[], bool isArticulationPoint[], int *time)
 {
+    // Number of children in the DFS tree
     int children = 0;
+    // Mark the current node as visited
     visited[u] = true;
-    disc[u] = low[u] = ++(*time); // Initialize discovery time and low value
-
+    // Initialize discovery time and low value
+    disc[u] = low[u] = ++(*time);
+    // Set "u" as root of the DFS tree
     AdjListNode *pCrawl = graph->array[u].head;
+    // For each neighbor of the root...
     while (pCrawl != NULL)
     {
-        int v = pCrawl->dest; // Current adjacent vertex
+        // Current adjacent vertex
+        int v = pCrawl->dest;
+        // If "v" is not visited, then it is a tree edge
         if (!visited[v])
         {
             children++;
+            // Set "u" as parent of "v"
             parent[v] = u;
+            // Recursive call for vertex v
             APUtil(graph, v, visited, disc, low, parent, isArticulationPoint, time);
-            // Check if the subtree rooted at v has a connection back to one of u's ancestors
+            // Check if the subtree rooted at "v" has a connection back to one of u's ancestors
             low[u] = (low[u] < low[v]) ? low[u] : low[v];
-            // (1) u is an articulation point if it is not the root and low[v] >= disc[u]
-            if (parent[u] != -1 && low[v] >= disc[u])
+            // (1) "u" is an articulation point if it is the root and has two or more children
+            if (parent[u] == -1 && children > 1)
             {
                 isArticulationPoint[u] = true;
             }
-            // (2) u is an articulation point if it is the root and has two or more children
-            if (parent[u] == -1 && children > 1)
+            // (2) "u" is an articulation point if it is not the root and low value(v) >= discovery time(u)
+            if (parent[u] != -1 && low[v] >= disc[u])
             {
                 isArticulationPoint[u] = true;
             }
         }
         else if (v != parent[u])
         {
-            // Update low[u] for back edge v -- u
+            // Update low[u] to the minimum of low[u] and disc[v] for back(<-) edge v-u
             low[u] = (low[u] < disc[v]) ? low[u] : disc[v];
         }
-        pCrawl = pCrawl->next;
+        pCrawl = pCrawl->next; // Move to the next adjacent vertex
     }
 }
 
-// Function to find and print all articulation points
+// Find and print all articulation points
 int findArticulationPoints(Graph *graph, bool *isArticulationPoint)
 {
+    // Print header for graph visualization
     printf("\n\n%s%s:: ARTICULATION POINTS ::%s\n", bold, purple, reset);
+    // Allocate memory for auxiliary arrays
     bool *visited = (bool *)malloc(graph->V * sizeof(bool));
     int *disc = (int *)malloc(graph->V * sizeof(int));
     int *low = (int *)malloc(graph->V * sizeof(int));
     int *parent = (int *)malloc(graph->V * sizeof(int));
+    // Initialize time
     int time = 0;
+    // Initialize number of articulation points found
     int count = 0;
-
-    // Initializion of arrays
+    // Initialization of arrays
     for (int i = 0; i < graph->V; i++)
     {
-        parent[i] = -1;
-        visited[i] = false;
-        isArticulationPoint[i] = false;
+        parent[i] = -1;                 // Initialize parent array
+        visited[i] = false;             // Mark all vertices as not visited
+        isArticulationPoint[i] = false; // Vertex at position "i" is not an articulation point
     }
-    // For each non visited graph, call DFS that find articulation points
+    // For each vertex, if not visited, call DFS to find articulation points
     for (int i = 0; i < graph->V; i++)
     {
         if (!visited[i])
@@ -184,40 +207,45 @@ int findArticulationPoints(Graph *graph, bool *isArticulationPoint)
             APUtil(graph, i, visited, disc, low, parent, isArticulationPoint, &time);
         }
     }
-
+    // Print all articulation points found
     printf("%s%sArticulation points in the graph:%s ", bold, white, reset);
     for (int i = 0; i < graph->V; i++)
     {
         if (isArticulationPoint[i] == true)
         {
             printf("%s%s%d%s ", bold, white, i + 1, reset); // Adjusted for 1-based indexing
+            // Increment number of articulation points found
             count++;
         }
     }
-    // Freeing structs used
+    // Freeing allocated memory
     free(visited);
     free(disc);
     free(low);
     free(parent);
-
-    // Flag is true if the graph have at least one articulation point
+    // Return the number of articulation points found in the graph
     return count;
 }
 
+// Count the number of vertex in a Block
 void DFSBlock(Graph *graph, int v, bool *visited, bool *isArticulationPoint, int *blockSize)
 {
-    // Print the current vertex where DFS is running (adjusting for 1-based indexing)
+    // Print the current vertex where DFS is running (adjusted for 1-based indexing)
     printf("Current running DFS on vertex: %d\n", v + 1);
+    // Mark the current vertex as visited
     visited[v] = true;
+    // Increment the size of the current block
     (*blockSize)++;
+    // Set "v" as root of the DFS tree
     AdjListNode *pCrawl = graph->array[v].head;
+    // For each neighbor of the root...
     while (pCrawl != NULL)
     {
         int u = pCrawl->dest;
+        // If the adjacent vertex "u" is not visited and not an articulation point, run DFS on "u"
         if (!visited[u] && !isArticulationPoint[u])
-        {
             DFSBlock(graph, u, visited, isArticulationPoint, blockSize);
-        }
+        // Move to the next adjacent vertex
         pCrawl = pCrawl->next;
     }
 }
@@ -231,12 +259,11 @@ void analyzeBlocks(Graph *graph)
     {
         visited[i] = false;
     }
-    // Find articulation points
+    // Find all articulation points in the graph
     int numArticulationPoints = findArticulationPoints(graph, isArticulationPoint);
     int numBlocks = 0;
     int blockSize = 0;
     printf("\n\n%s%s:: BLOCKS ANALYSIS ::%s\n", bold, purple, reset);
-
     // For all vertices in the graph
     for (int i = 0; i < graph->V; i++)
     {
@@ -245,11 +272,8 @@ void analyzeBlocks(Graph *graph)
         // If the vertex has not been visited or is not an articulation point
         if (!visited[i] && !isArticulationPoint[i])
         {
-            // printf("numarticulatioon points: %d\n", numArticulationPoints);
-            // If have articulation point consider it in the size
-            blockSize = (numArticulationPoints > 0) ? 1 : 0;
-            // Run DFS to verify how many vertex are in the block
-            DFSBlock(graph, i, visited, isArticulationPoint, &blockSize);
+            blockSize = (numArticulationPoints > 0) ? 1 : 0; // If have articulation point consider it in the size
+            DFSBlock(graph, i, visited, isArticulationPoint, &blockSize); // DFS to find the size of the block
             if (blockSize > 0) // Ensure to only count non-zero blocks
             {
                 // Information of the block
@@ -257,15 +281,16 @@ void analyzeBlocks(Graph *graph)
                 // Increase the number of blocks found
                 numBlocks++;
                 // Decrease the number of articulation points left to verify
-                numArticulationPoints = (numArticulationPoints > 0) ? numArticulationPoints-1 : 0; 
+                numArticulationPoints = (numArticulationPoints > 0) ? numArticulationPoints - 1 : 0;
             }
         }
-        
     }
+    // Print the total number of blocks found
     printf("%s%sTotal number of blocks: %d%s\n", bold, purple, numBlocks, reset);
     // Freeing structs used
     free(visited);
     free(isArticulationPoint);
+    freeGraph(graph);
 }
 
 int main(int argc, char *argv[])
@@ -279,15 +304,11 @@ int main(int argc, char *argv[])
     const char *filename = argv[1];
     // Read graph from file specified
     Graph *graph = readGraphFromFile(filename);
-
     if (graph != NULL)
     {
-        printf("%s%s:: GRAPH READ ::%s\n", bold, purple, reset);
         printGraph(graph);
         // Find and analyse the blocks of the graph
-        analyzeBlocks(graph);
-        // Memory free
-        freeGraph(graph);
+        analyzeBlocks(graph);       
         return 0;
     }
     printf("%s%sERROR => Could not initialize graph from file. Exiting...%s\n", bold, red, reset);
