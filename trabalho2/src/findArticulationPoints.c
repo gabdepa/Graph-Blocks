@@ -131,8 +131,8 @@ Graph *readFile(const char *filename)
     return graph;
 }
 
-// Recursive function to find articulation points using DFS
-void APUtil(Graph *graph, int u, bool visited[], int disc[], int low[], int parent[], bool isArticulationPoint[], int *time)
+// DFS recursive to find articulation points 
+void articulationPoints(Graph *graph, int u, bool visited[], int disc[], int low[], int parent[], bool isArticulationPoint[], int *time)
 {
     // Number of children in the DFS tree
     int children = 0;
@@ -154,31 +154,24 @@ void APUtil(Graph *graph, int u, bool visited[], int disc[], int low[], int pare
             // Set "u" as parent of "v"
             parent[v] = u;
             // Recursive call for vertex v
-            APUtil(graph, v, visited, disc, low, parent, isArticulationPoint, time);
+            articulationPoints(graph, v, visited, disc, low, parent, isArticulationPoint, time);
             // Check if the subtree rooted at "v" has a connection back to one of u's ancestors
             low[u] = (low[u] < low[v]) ? low[u] : low[v];
             // (1) "u" is an articulation point if it is the root and has two or more children
             if (parent[u] == -1 && children > 1)
-            {
                 isArticulationPoint[u] = true;
-            }
             // (2) "u" is an articulation point if it is not the root and low value(v) >= discovery time(u)
             if (parent[u] != -1 && low[v] >= disc[u])
-            {
                 isArticulationPoint[u] = true;
-            }
         }
         else if (v != parent[u])
-        {
-            // Update low[u] to the minimum of low[u] and disc[v] for back(<-) edge v-u
-            low[u] = (low[u] < disc[v]) ? low[u] : disc[v];
-        }
+            low[u] = (low[u] < disc[v]) ? low[u] : disc[v]; // Update low(u) to the minimum of low(u) and disc(v) for back(<-) edge v-u
         pCrawl = pCrawl->next; // Move to the next adjacent vertex
     }
 }
 
 // Find and print all articulation points
-int findArticulationPoints(Graph *graph, bool *isArticulationPoint)
+void findAllArticulationPoints(Graph *graph, bool *isArticulationPoint)
 {
     // Print header for articulation points
     printf("%s%s:: ARTICULATION POINTS ::%s\n", bold, purple, reset);
@@ -200,34 +193,22 @@ int findArticulationPoints(Graph *graph, bool *isArticulationPoint)
     }
     // For each vertex, if not visited, call DFS to find articulation points
     for (int i = 0; i < graph->V; i++)
-    {
         if (!visited[i])
-        {
-            APUtil(graph, i, visited, disc, low, parent, isArticulationPoint, &time);
-        }
-    }
+            articulationPoints(graph, i, visited, disc, low, parent, isArticulationPoint, &time);
     // Print all articulation points found
     printf("%s%sArticulation points in the graph:%s ", bold, white, reset);
     for (int i = 0; i < graph->V; i++)
-    {
         if (isArticulationPoint[i] == true)
-        {
             printf("%s%s%d%s ", bold, white, i + 1, reset); // Adjusted for 1-based indexing
-            // Increment number of articulation points found
-            count++;
-        }
-    }
     // Freeing allocated memory
     free(visited);
     free(disc);
     free(low);
     free(parent);
-    // Return the number of articulation points found in the graph
-    return count;
 }
 
-// BFS to find the vertex and edges
-void BFSBlock(Graph *graph, int startVertex, bool *visited, bool *isArticulationPoint, int *blockSize, bool *blockMembers)
+// BFS to find the vertex and edges in a block
+void blocks(Graph *graph, int startVertex, bool *visited, bool *isArticulationPoint, int *blockSize, bool *blockMembers)
 {
     // Initialize a queue for BFS
     int *queue = (int *)malloc(graph->V * sizeof(int));
@@ -274,7 +255,7 @@ void BFSBlock(Graph *graph, int startVertex, bool *visited, bool *isArticulation
 }
 
 // Find and analyse the blocks of the graph
-void analyzeBlocks(Graph *graph)
+void findAllBlocks(Graph *graph)
 {
     // Array to track vertexs visited
     bool *visited = (bool *)malloc(graph->V * sizeof(bool));
@@ -289,7 +270,7 @@ void analyzeBlocks(Graph *graph)
         blockMembers[i] = false;
     }
     // Find all articulation points in the graph
-    int numArticulationPoints = findArticulationPoints(graph, isArticulationPoint);
+    findAllArticulationPoints(graph, isArticulationPoint);
     // Print header for block analysis
     printf("\n\n%s%s:: BLOCKS ANALYSIS ::%s\n", bold, purple, reset);
     // Initialize number of blocks found
@@ -308,7 +289,7 @@ void analyzeBlocks(Graph *graph)
             for (int j = 0; j < graph->V; j++)
                 blockMembers[j] = false;
             // BFS to find the block size and mark block members
-            BFSBlock(graph, i, visited, isArticulationPoint, &blockSize, blockMembers);
+            blocks(graph, i, visited, isArticulationPoint, &blockSize, blockMembers);
             // For all vertex in th graph
             for (int v = 0; v < graph->V; v++)
             {
@@ -362,7 +343,7 @@ int main(int argc, char *argv[])
     {
         printGraph(graph);
         printf("\n");
-        analyzeBlocks(graph);       
+        findAllBlocks(graph);       
         return 0;
     }
     printf("%s%sERROR => Could not create Graph from file \"%s\".%s\n", bold, red, filename, reset);
