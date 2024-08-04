@@ -1,42 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
+#include "findBlocks.h"
 
 // ANSI escape codes for colors and styles
-char *reset = "\033[0m";   // Reset all styles
-char *bold = "\033[1m";    // Bold text
-char *red = "\033[31m";    // Red
-char *white = "\033[37m";  // White
-char *purple = "\033[95m"; // Bright magenta (light purple)
+const char *reset = "\033[0m";   // Reset all styles
+const char *bold = "\033[1m";    // Bold text
+const char *red = "\033[31m";    // Red
+const char *white = "\033[37m";  // White
+const char *purple = "\033[95m"; // Bright magenta (light purple)
 
-// Represent the info about a block: number of vertex and edges
-typedef struct info_t
-{
-    unsigned int vertexes;
-    unsigned int edges;
-} info_t;
-
-// Structure to represent an adjacency list node
-typedef struct AdjListNode
-{
-    int dest;
-    struct AdjListNode *next;
-} AdjListNode;
-
-// Structure to represent an adjacency list
-typedef struct AdjList
-{
-    AdjListNode *head; // Pointer to the head node of the list
-} AdjList;
-
-// Structure to represent a graph
-typedef struct Graph
-{
-    int V;          // Number of vertices
-    AdjList *array; // Array of adjacency lists
-} Graph;
-
-// Create a new adjacency list node
 AdjListNode *newAdjListNode(int dest)
 {
     // Allocate memory for a new adjacency list node
@@ -49,7 +21,6 @@ AdjListNode *newAdjListNode(int dest)
     return newNode;
 }
 
-// Add an edge to an undirected graph
 void addEdge(Graph *graph, int src, int dest)
 {
     // Add an edge from src to dest
@@ -62,18 +33,23 @@ void addEdge(Graph *graph, int src, int dest)
     graph->array[dest].head = newNode;
 }
 
-// Create a graph with "V" vertexes
 Graph *createGraph(int V)
 {
+    // Allocate memory for the graph structure
     Graph *graph = (Graph *)malloc(sizeof(Graph));
+    // Set the number of vertices in the graph
     graph->V = V;
-    graph->array = (AdjList *)malloc(V * sizeof(AdjList));
+     // Allocate memory for the array of adjacency lists
+    // Each vertex will have its own adjacency list
+    graph->array = (AdjList *)malloc((size_t)V * sizeof(AdjList));
+    // Loop over all vertices
     for (int i = 0; i < V; ++i)
+        // Initialize each adjacency list as empty by setting its head to NULL
         graph->array[i].head = NULL;
+    // Return the newly created graph structure
     return graph;
 }
 
-// Print the adjacency list representation of the graph
 void printGraph(Graph *graph)
 {
     // Print header for graph visualization
@@ -94,7 +70,6 @@ void printGraph(Graph *graph)
     }
 }
 
-// Print the block info found
 void printBlocksInfo(info_t *blocksInfo, int numBlocks)
 {
     printf("\n%s%s:: BLOCO INFO ::%s\n", bold, purple, reset);
@@ -112,7 +87,6 @@ void printBlocksInfo(info_t *blocksInfo, int numBlocks)
     printf("%s%sTOTAL NUMBER OF BLOCKS IN THE GRAPH: %d%s\n", bold, purple, numBlocks, reset);
 }
 
-// Free the graph
 void freeGraph(Graph *graph)
 {
     // Loop through each vertex
@@ -131,7 +105,6 @@ void freeGraph(Graph *graph)
     free(graph);        // Free the graph structure
 }
 
-// Read formatted input from file and create a graph
 Graph *readFile(const char *filename)
 {
     // Try to open the file read-only
@@ -156,7 +129,6 @@ Graph *readFile(const char *filename)
     return graph;
 }
 
-// DFS recursive to find articulation points
 void DFSarticulationPoints(Graph *graph, int u, bool visited[], int disc[], int low[], int parent[], bool isArticulationPoint[], int *time)
 {
     // Number of children in the DFS tree
@@ -195,20 +167,17 @@ void DFSarticulationPoints(Graph *graph, int u, bool visited[], int disc[], int 
     }
 }
 
-// Find and print all articulation points
 void findAllArticulationPoints(Graph *graph, bool *isArticulationPoint)
 {
     // Print header for articulation points
     printf("%s%s:: ARTICULATION POINTS ::%s\n", bold, purple, reset);
     // Allocate memory for auxiliary arrays
-    bool *visited = (bool *)malloc(graph->V * sizeof(bool));
-    int *disc = (int *)malloc(graph->V * sizeof(int));
-    int *low = (int *)malloc(graph->V * sizeof(int));
-    int *parent = (int *)malloc(graph->V * sizeof(int));
+    bool *visited = (bool *)malloc((size_t)graph->V * sizeof(bool));
+    int *disc = (int *)malloc((size_t)graph->V * sizeof(int));
+    int *low = (int *)malloc((size_t)graph->V * sizeof(int));
+    int *parent = (int *)malloc((size_t)graph->V * sizeof(int));
     // Initialize time
     int time = 0;
-    // Initialize number of articulation points found
-    int count = 0;
     // Initialization of arrays
     for (int i = 0; i < graph->V; i++)
     {
@@ -232,11 +201,10 @@ void findAllArticulationPoints(Graph *graph, bool *isArticulationPoint)
     free(parent);
 }
 
-// BFS to find the vertex and edges in a block
 void BFSblocks(Graph *graph, int startVertex, bool *visited, bool *isArticulationPoint, int *blockSize, bool *blockMembers)
 {
     // Initialize a queue for BFS
-    int *queue = (int *)malloc(graph->V * sizeof(int));
+    int *queue = (int *)malloc((size_t)graph->V * sizeof(int));
     int front = 0;
     int rear = 0;
 
@@ -283,17 +251,16 @@ void BFSblocks(Graph *graph, int startVertex, bool *visited, bool *isArticulatio
     free(queue);
 }
 
-// Find all blocks in the graph
 void findAllBlocks(Graph *graph)
 {
     // Array to track vertices visited
-    bool *visited = (bool *)malloc(graph->V * sizeof(bool));
+    bool *visited = (bool *)malloc((size_t)graph->V * sizeof(bool));
     // Array to track articulation points
-    bool *isArticulationPoint = (bool *)malloc(graph->V * sizeof(bool));
+    bool *isArticulationPoint = (bool *)malloc((size_t)graph->V * sizeof(bool));
     // Array to track block members
-    bool *blockMembers = (bool *)malloc(graph->V * sizeof(bool));
+    bool *blockMembers = (bool *)malloc((size_t)graph->V * sizeof(bool));
     // Array to store information of all blocks
-    info_t *blocksInfo = (info_t *)malloc(graph->V * sizeof(info_t));
+    info_t *blocksInfo = (info_t *)malloc((size_t)graph->V * sizeof(info_t));
     // Initialize graph as not visited
     for (int i = 0; i < graph->V; i++)
     {
@@ -345,8 +312,8 @@ void findAllBlocks(Graph *graph)
                 // Since every edge is counted twice (v-u, u-v) in an undirected graph, divide by 2
                 numEdges /= 2;
                 // Store the block information
-                blocksInfo[numBlocks].vertexes = blockSize;
-                blocksInfo[numBlocks].edges = numEdges;
+                blocksInfo[numBlocks].vertexes = (unsigned int)blockSize;
+                blocksInfo[numBlocks].edges = (unsigned int)numEdges;
                 // Print the block information found
                 printf("%sFound Block %d: Number of Vertexes %d, Number of Edges: %d%s\n\n", bold, numBlocks + 1, blockSize, numEdges, reset);
                 // Increase the number of blocks found
