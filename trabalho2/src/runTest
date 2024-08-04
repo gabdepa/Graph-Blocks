@@ -25,7 +25,7 @@ else
 fi
 
 for i in $(ls $PATH_INPUTS); do
-    # Print 30 cyan asterisks
+    # Print "x" yellow asterisks
     printf "$BOLD$YELLOW%0.s*${RESET}" {1..80}
     echo -e "\n$BOLD$GREEN==> Running $PROGRAM for input $i $RESET"
     ./$PROGRAM $PATH_INPUTS/$i 
