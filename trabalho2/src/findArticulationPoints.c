@@ -114,7 +114,7 @@ Graph *readFile(const char *filename)
     if (file == NULL)
     {
         // Could not open the file
-        printf("%s%sERROR => Could not open file %s\n%s", bold, red, filename, reset);
+        printf("%s%sERROR => Could not open file \"%s\"\n%s", bold, red, filename, reset);
         exit(1);
     }
     // Read the total number of vertex in the graph
@@ -122,13 +122,12 @@ Graph *readFile(const char *filename)
     fscanf(file, "%d", &V);
     // Create the graph with the number of vertex read
     Graph *graph = createGraph(V);
-
     // Populate the Adjacency List with the edges
     int src, dest;
     while (fscanf(file, "%d %d", &src, &dest) != EOF)
         addEdge(graph, src - 1, dest - 1); // Adjust for 0-based indexing in C
-    // Return the graph created
     fclose(file);
+    // Return the graph created
     return graph;
 }
 
@@ -352,7 +351,7 @@ int main(int argc, char *argv[])
 {
     if (argc < 2)
     {
-        printf("%sUsage: %s <filename>%s\n", bold, argv[0], reset);
+        printf("%sUsage: %s <path/to/filename>%s\n", bold, argv[0], reset);
         return 1;
     }
     // Name of the file where the graph is located
@@ -362,9 +361,10 @@ int main(int argc, char *argv[])
     if (graph != NULL)
     {
         printGraph(graph);
+        printf("\n");
         analyzeBlocks(graph);       
         return 0;
     }
-    printf("%s%sERROR => Could not initialize graph from file. Exiting...%s\n", bold, red, reset);
+    printf("%s%sERROR => Could not create Graph from file \"%s\".%s\n", bold, red, filename, reset);
     return 1;
 }
