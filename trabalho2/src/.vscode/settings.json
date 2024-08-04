@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "*.ejs": "html",
-        "findblocks.h": "c",
-        "stdbool.h": "c"
-    }
-}
