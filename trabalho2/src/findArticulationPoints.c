@@ -340,7 +340,6 @@ void BFSBlock(Graph *graph, int startVertex, bool *visited, bool *isArticulation
     free(queue);
 }
 
-
 void analyzeBlocksUsingBFS(Graph *graph)
 {
     bool *visited = (bool *)malloc(graph->V * sizeof(bool));
@@ -409,7 +408,6 @@ void analyzeBlocksUsingBFS(Graph *graph)
     free(blockMembers);
     freeGraph(graph);
 }
-
 
 int main(int argc, char *argv[])
 {
