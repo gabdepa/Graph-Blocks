@@ -2,9 +2,19 @@
 Documentação das Funções e Estruturas
 ====================================
 
-Obs.: há um define no inicio do arquivo chamado #define GRAPH_INFO 1. Este serve para mostrar prints que dão informações mais completas sobre o grafo e sua estrutura. Caso queira ter mais informações sobre o grafo em questão como por exemplo:
+Autores: 
+    - Gabriel Razzolini Pires De Paula -> GRR20197155
+    - Erick Graeff Petzold -> GRR
+
+Como rodar:
+    - Para executar o programa primeiro compile-o usando o comando "make"
+    - execute da seguinte maneira:
+      ./teste < <caminho_para_arquivo>/<arquivo>
+
+OBS.: Há um define no inicio do arquivo chamado "#define GRAPH_INFO 1". Este serve para mostrar prints que dão informações mais completas sobre o grafo e sua estrutura.
+Caso queira, ele serve para ter mais informações sobre o grafo em questão como por exemplo:
     - sua lista de adjacência
-    - os seus pontos de articulação
+    - os seus pontos de articulação(vértices de corte)
     - quais vértices são adicionados em cada bloco
     - e por fim informações gerais sobre os blocos, apenas deve-se descomentar a linha que faz o define
 
@@ -61,7 +71,7 @@ Funções
    - Retorno: Ponteiro para o grafo criado.
 
 6. void DFSarticulationPoints(Graph* graph, int u, bool visited[], int disc[], int low[], int parent[], bool isArticulationPoint[], int* time)
-   - Descrição: Realiza uma busca em profundidade (DFS) para encontrar pontos de articulação.
+   - Descrição: Realiza uma busca em profundidade (DFS) para encontrar pontos de articulação(vértices de corte).
    - Parâmetros:
      - Graph* graph: Ponteiro para o grafo.
      - int u: Vértice atual.
@@ -69,14 +79,14 @@ Funções
      - int disc[]: Array de tempos de descoberta.
      - int low[]: Array de menores tempos de descoberta.
      - int parent[]: Array de pais dos vértices.
-     - bool isArticulationPoint[]: Array de pontos de articulação.
+     - bool isArticulationPoint[]: Array de pontos de articulação(vértices de corte).
      - int* time: Ponteiro para o tempo atual.
 
 7. void findAllArticulationPoints(Graph* graph, bool* isArticulationPoint)
-   - Descrição: Encontra e imprime todos os pontos de articulação no grafo.
+   - Descrição: Encontra e imprime todos os pontos de articulação(vértices de corte) no grafo.
    - Parâmetros:
      - Graph* graph: Ponteiro para o grafo.
-     - bool* isArticulationPoint: Array de pontos de articulação.
+     - bool* isArticulationPoint: Array de pontos de articulação(vértices de corte).
 
 8. void BFSblocks(Graph* graph, int startVertices, bool* visited, bool* isArticulationPoint, int* blockSize, bool* blockMembers)
    - Descrição: Realiza uma busca em largura (BFS) para encontrar os vértices e arestas em um bloco.
@@ -84,7 +94,7 @@ Funções
      - Graph* graph: Ponteiro para o grafo.
      - int startVertices: Vértice inicial.
      - bool* visited: Array de vértices visitados.
-     - bool* isArticulationPoint: Array de pontos de articulação.
+     - bool* isArticulationPoint: Array de pontos de articulação(vértices de corte).
      - int* blockSize: Ponteiro para o tamanho do bloco.
      - bool* blockMembers: Array de membros do bloco.
 

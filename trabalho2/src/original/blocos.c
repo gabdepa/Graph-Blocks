@@ -140,14 +140,14 @@ void printBlocksInfo(info_t *blocksInfo, int numBlocks)
 {
     printf("\n%s%s:: BLOCO INFO ::%s\n", bold, purple, reset);
     for (int i = 0; i < numBlocks; i++)
-        if (blocksInfo[i].vertexes == 1 && blocksInfo[i].edges == 1)
-            printf("%s%sBlock %d: %d Vertex, %d Edge %s\n", bold, white, i + 1, blocksInfo[i].vertexes, blocksInfo[i].edges, reset);
-        else if (blocksInfo[i].vertexes == 1)
-            printf("%s%sBlock %d: %d Vertex, %d Edges %s\n", bold, white, i + 1, blocksInfo[i].vertexes, blocksInfo[i].edges, reset);
-        else if (blocksInfo[i].edges == 1)
-            printf("%s%sBlock %d: %d Vertexes, %d Edge %s\n", bold, white, i + 1, blocksInfo[i].vertexes, blocksInfo[i].edges, reset);
+        if (blocksInfo[i].vertices == 1 && blocksInfo[i].arestas == 1)
+            printf("%s%sBlock %d: %d Vertex, %d Edge %s\n", bold, white, i + 1, blocksInfo[i].vertices, blocksInfo[i].arestas, reset);
+        else if (blocksInfo[i].vertices == 1)
+            printf("%s%sBlock %d: %d Vertex, %d arestas %s\n", bold, white, i + 1, blocksInfo[i].vertices, blocksInfo[i].arestas, reset);
+        else if (blocksInfo[i].arestas == 1)
+            printf("%s%sBlock %d: %d vertices, %d Edge %s\n", bold, white, i + 1, blocksInfo[i].vertices, blocksInfo[i].arestas, reset);
         else
-            printf("%s%sBlock %d: %d Vertexes, %d Edges %s\n", bold, white, i + 1, blocksInfo[i].vertexes, blocksInfo[i].edges, reset);
+            printf("%s%sBlock %d: %d vertices, %d arestas %s\n", bold, white, i + 1, blocksInfo[i].vertices, blocksInfo[i].arestas, reset);
     printf("\n");
     // Summarize the blocks info
     printf("%s%sTOTAL NUMBER OF BLOCKS IN THE GRAPH: %d%s\n", bold, purple, numBlocks, reset);
@@ -406,7 +406,8 @@ info_t* findAllBlocks(Graph *graph, unsigned int *num_blocos)
     (*num_blocos) = numBlocks;
 
     #ifdef GRAPH_INFO
-    printBlocksInfo(blocksInfo, numBlocks);
+    int numBlocksInt = (int)numBlocks; // Explicit type casting
+    printBlocksInfo(blocksInfo, numBlocksInt);
     #endif
 
     // Free allocated memory
