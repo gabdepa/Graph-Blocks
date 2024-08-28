@@ -1,3 +1,22 @@
+## Index
+1. [Graph Block Size Computation](#graph-block-size-computation)
+2. [Project Description](#project-description)
+   - [Input Format](#input-format)
+   - [Output](#output)
+3. [Installation](#installation)
+4. [Usage](#usage)
+   - [Example](#example)
+5. [Files](#files)
+6. [How It Works](#how-it-works)
+   - [1. Graph Representation](#1-graph-representation)
+   - [2. Adding Edges](#2-adding-edges)
+   - [3. Depth-First Search (DFS) and Articulation Points](#3-depth-first-search-dfs-and-articulation-points)
+   - [4. Block Analysis](#4-block-analysis)
+   - [5. Output](#5-output)
+   - [Example Walkthrough](#example-walkthrough)
+7. [License](#license)
+
+
 # Graph Block Size Computation
 
 This project provides a utility to compute the number of connected components (blocks) in a graph based on input from `stdin`. The graph is described by a sequence of integers where the first number represents the number of vertices, and each subsequent pair of numbers represents an edge between two vertices.
