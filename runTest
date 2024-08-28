@@ -13,8 +13,10 @@ RESET='\033[0m' # Reset color
 
 PROGRAM="findBlocks"
 
-echo -e "$BOLD$CYAN==> Please enter the path to inputs folder: $RESET"
+echo -e "$BOLD$CYAN==> Please enter the complete path to inputs folder: $RESET"
 read PATH_INPUTS
+
+cd src/
 
 # Compile if it hasn't yet
 if [[ -f $PROGRAM ]]; then
