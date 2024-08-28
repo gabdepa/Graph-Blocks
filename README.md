@@ -25,7 +25,29 @@ This represents a graph with four vertices, where three of them form a triangle,
 
 ### Output
 
-The program calculates and returns the number of connected components (blocks) in the graph.
+The program produces several outputs:
+1. **Graph Adjacency List:** Prints the adjacency list of the graph.
+2. **Articulation Points:** Identifies and prints the articulation points in the graph.
+3. **Block Analysis:** Provides detailed information about each block, including the number of vertices and edges.
+4. **Total Number of Blocks:** Outputs the total number of blocks in the graph.
+
+Example output for a graph might look like:
+
+```
+:: GRAPH READ ::
+Adjacency list of vertex 1: (head) -> 3 -> 2 
+Adjacency list of vertex 2: (head) -> 4 -> 1 ...
+
+:: ARTICULATION POINTS :: 
+Articulation points in the graph: 4 7
+
+:: BLOCKS ANALYSIS :: 
+Vertex 1 added to the block 
+... 
+Found Block 1: Number of Vertexes 6, Number of Edges: 6 ...
+
+TOTAL NUMBER OF BLOCKS IN THE GRAPH: 4
+```
 
 ## Installation
 
@@ -56,7 +78,7 @@ This will output the number of connected components in the graph described in `g
 - `findBlocks.h`: Header file containing declarations used in `findBlocks.c`.
 
 ## How It Works
-The program utilizes a depth-first search (DFS) to explore the graph and count the number of connected components. Each time a new vertex is found that hasn't been visited, a new DFS is initiated, representing the discovery of a new connected component.
+The program utilizes a depth-first search (DFS) to explore the graph and identify connected components. It also identifies articulation points and analyzes the blocks formed within the graph.
 
 ## License
 This project is open-source and available under the [MIT License](LICENSE).
